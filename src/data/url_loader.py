@@ -1,17 +1,21 @@
 """
 Wikipedia URL Loader module.
 
-Fetches Wikipedia article URLs from predefined categories
-to build the knowledge base corpus.
+Fetches Wikipedia article URLs using multiple strategies:
+1. Category crawling for diversity
+2. Wikipedia Random API for volume
+3. Pre-validation to ensure article quality
 """
 
 import json
 import random
 import wikipediaapi
+import requests
 from pathlib import Path
 from typing import List, Set
 import sys
 import os
+import time
 
 # Add src to path if running directly
 sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
@@ -20,45 +24,119 @@ from src.config import Config
 
 class URLLoader:
     """
-    Wikipedia URL loader.
+    Wikipedia URL loader with multiple fetching strategies.
 
-    Manages fetching of fixed and random Wikipedia article URLs
-    from diverse categories to ensure content quality and variety.
+    Combines category-based crawling with API-based random article
+    fetching to ensure sufficient high-quality articles.
     """
 
     def __init__(self):
-        # User-Agent is required by Wikipedia API
+        """Initialize URL loader with Wikipedia API client."""
         self.wiki = wikipediaapi.Wikipedia(
             user_agent="HybridRAG_Assignment/1.0 (contact@example.com)",
             language="en",
         )
         self.fixed_path = Config.FIXED_URLS_PATH
         self.fixed_count, self.random_count = Config.get_url_counts()
+        self.session = requests.Session()
+
+    def get_random_article_via_api(self) -> str:
+        """
+        Fetch a random Wikipedia article URL using the MediaWiki API.
+
+        Returns:
+            Article URL or None if fetch failed.
+        """
+        try:
+            response = self.session.get(
+                "https://en.wikipedia.org/w/api.php",
+                params={
+                    "action": "query",
+                    "format": "json",
+                    "list": "random",
+                    "rnnamespace": 0,  # Main namespace only
+                    "rnlimit": 1,
+                },
+                timeout=10,
+            )
+
+            if response.status_code == 200:
+                data = response.json()
+                if "query" in data and "random" in data["query"]:
+                    title = data["query"]["random"][0]["title"]
+                    return f"https://en.wikipedia.org/wiki/{title.replace(' ', '_')}"
+        except Exception as e:
+            print(f"API fetch error: {e}")
+
+        return None
+
+    def validate_article(self, url: str) -> bool:
+        """
+        Pre-validate article to ensure it meets minimum requirements.
+
+        Args:
+            url: Wikipedia article URL.
+
+        Returns:
+            True if article is valid (exists and has sufficient content).
+        """
+        try:
+            title = url.split("/wiki/")[-1].replace("_", " ")
+            page = self.wiki.page(title)
+
+            if not page.exists():
+                return False
+
+            # Check word count
+            word_count = len(page.text.split())
+            return word_count >= 200
+
+        except Exception:
+            return False
 
     def get_random_pages(
         self, count: int, exclude_titles: Set[str] = None
     ) -> List[str]:
-        """Fetches `count` random Wikipedia article URLs."""
+        """
+        Fetch random Wikipedia article URLs using multiple strategies.
+
+        Uses a hybrid approach:
+        1. Category crawling for diversity (up to 30% of requested)
+        2. Wikipedia Random API for volume (remaining)
+
+        Args:
+            count: Number of URLs to fetch.
+            exclude_titles: Set of titles to exclude.
+
+        Returns:
+            List of valid Wikipedia article URLs.
+        """
         pages = []
         if exclude_titles is None:
             exclude_titles = set()
 
         print(f"Fetching {count} random pages...")
-        # Note: wikipedia-api doesn't have a direct 'random' method that guarantees unique useful articles roughly.
-        # But we can try to fetch random by just using a random generator or crawling from a category.
-        # Actually, wikipedia special:random is the usual way, but the API might not expose it directly easily without known categories.
-        # A common workaround is searching for random words or using a category like "Featured articles".
-        # Let's try getting pages from "Category:Featured_articles" or "Category:Good_articles" to ensure quality/length.
-        # For true random, we might just query "Special:Random" repeatedly if the library supports it,
-        # but this library wraps the API.
-        # Let's check available methods. Standard approach with this lib is usually category walking or explicit titles.
-        # However, for this assignment, let's try a robust method:
-        # Use a list of seed categories or just fetch enough pages to filter.
 
-        # Simpler approach for assignment: Use "Special:Random" equivalent via requests if needed,
-        # but wikipedia-api might not do it.
-        # Let's try to grab pages from a broad category like "Physics", "History", "Technology" to ensure we get real text.
+        # Strategy 1: Category-based (30% for diversity)
+        category_target = min(int(count * 0.3), 100)
+        pages.extend(
+            self._fetch_from_categories(category_target, exclude_titles)
+        )
 
+        # Strategy 2: Random API (remaining)
+        api_target = count - len(pages)
+        pages.extend(
+            self._fetch_via_random_api(api_target, exclude_titles, pages)
+        )
+
+        print(f"\nSuccessfully fetched {len(pages)}/{count} valid articles.")
+        return pages[:count]
+
+    def _fetch_from_categories(
+        self, target: int, exclude_titles: Set[str]
+    ) -> List[str]:
+        """Fetch articles from diverse Wikipedia categories."""
+        # Expanded category list for better coverage
         categories = [
             "History",
             "Physics",
@@ -68,50 +146,98 @@ class URLLoader:
             "Art",
             "Literature",
             "Geography",
+            "Mathematics",
+            "Chemistry",
+            "Astronomy",
+            "Politics",
+            "Economics",
+            "Psychology",
+            "Music",
+            "Architecture",
+            "Medicine",
+            "Computer_science",
+            "Linguistics",
+            "Anthropology",
+            "Sociology",
+            "Law",
+            "Engineering",
         ]
         random.shuffle(categories)
 
+        pages = []
         gathered_titles = set()
 
-        # Helper to recursively get pages
         def fetch_from_category(cat_name, limit):
-            cat = self.wiki.page(f"Category:{cat_name}")
-            if not cat.exists():
-                return
-
-            for m in cat.categorymembers.values():
-                if len(pages) >= count:
+            """Recursively fetch pages from a category."""
+            try:
+                cat = self.wiki.page(f"Category:{cat_name}")
+                if not cat.exists():
                     return
 
-                if (
-                    m.ns == wikipediaapi.Namespace.MAIN
-                    and m.title not in exclude_titles
-                    and m.title not in gathered_titles
-                ):
-                    # Simple check for length (costly to load content, but required by assignment > 200 words)
-                    # We will filter strictly later, but let's try to get promising ones.
-                    pages.append(m.fullurl)
-                    gathered_titles.add(m.title)
-                    print(f"Found: {m.title}", end="\r")
+                for member in cat.categorymembers.values():
+                    if len(pages) >= limit:
+                        return
 
-                elif (
-                    m.ns == wikipediaapi.Namespace.CATEGORY
-                    and count - len(pages) > 10
-                ):
-                    # Dive deeper if we need many more
-                    fetch_from_category(
-                        m.title.replace("Category:", ""), limit
-                    )
+                    # Only process main namespace articles
+                    if (
+                        member.ns == wikipediaapi.Namespace.MAIN
+                        and member.title not in exclude_titles
+                        and member.title not in gathered_titles
+                    ):
+                        url = member.fullurl
 
+                        # Pre-validate to avoid wasting slots
+                        if self.validate_article(url):
+                            pages.append(url)
+                            gathered_titles.add(member.title)
+                            print(
+                                f"Category: {len(pages)}/{target}", end="\r"
+                            )
+
+            except Exception as e:
+                pass  # Skip problematic categories
+
+        # Fetch from categories
         for cat in categories:
-            if len(pages) >= count:
+            if len(pages) >= target:
                 break
-            fetch_from_category(cat, count)
+            fetch_from_category(cat, target)
 
-        return pages[:count]
+        return pages
+
+    def _fetch_via_random_api(
+        self, target: int, exclude_titles: Set[str], existing_pages: List[str]
+    ) -> List[str]:
+        """Fetch random articles using Wikipedia's Random API."""
+        pages = []
+        existing_urls = set(existing_pages)
+        attempts = 0
+        max_attempts = target * 3  # Allow some retries for duplicates/invalid
+
+        print(f"\nFetching {target} articles via Random API...")
+
+        while len(pages) < target and attempts < max_attempts:
+            url = self.get_random_article_via_api()
+
+            if url and url not in existing_urls:
+                # Pre-validate
+                if self.validate_article(url):
+                    pages.append(url)
+                    existing_urls.add(url)
+                    print(f"Random API: {len(pages)}/{target}", end="\r")
+
+            attempts += 1
+            time.sleep(0.05)  # Rate limiting
+
+        return pages
 
     def load_fixed_urls(self) -> List[str]:
-        """Loads fixed URLs from JSON, or generates/saves them if missing."""
+        """
+        Load fixed URLs from JSON, or generate/save them if missing.
+
+        Returns:
+            List of fixed Wikipedia URLs.
+        """
         if self.fixed_path.exists():
             print(f"Loading existing fixed URLs from {self.fixed_path}")
             with open(self.fixed_path, "r") as f:
@@ -122,7 +248,7 @@ class URLLoader:
                     f"Warning: Found {len(urls)} URLs, but need {self.fixed_count}. Fetching more."
                 )
 
-        # Generate new ones
+        # Generate new fixed set
         print("Generating new fixed URL set...")
         urls = self.get_random_pages(self.fixed_count)
 
@@ -133,13 +259,25 @@ class URLLoader:
         return urls
 
     def load_random_urls(self, existing_urls: List[str]) -> List[str]:
-        """Generates random URLs, avoiding overlaps with fixed set."""
-        existing_titles = set()
-        # Note: We only have URLs here. To be precise we'd need titles,
-        # but for now let's just avoid exact URL overlap if possible.
-        # We'll pass empty set for exclude for now or parse titles from URLs if needed.
+        """
+        Generate random URLs, avoiding overlaps with fixed set.
 
-        return self.get_random_pages(self.random_count)
+        Args:
+            existing_urls: URLs to exclude (e.g., fixed URLs).
+
+        Returns:
+            List of random Wikipedia URLs.
+        """
+        # Extract titles from existing URLs
+        exclude_titles = set()
+        for url in existing_urls:
+            try:
+                title = url.split("/wiki/")[-1].replace("_", " ")
+                exclude_titles.add(title)
+            except:
+                pass
+
+        return self.get_random_pages(self.random_count, exclude_titles)
 
 
 if __name__ == "__main__":
@@ -149,3 +287,4 @@ if __name__ == "__main__":
 
     random_set = loader.load_random_urls(fixed)
     print(f"Random URLs: {len(random_set)}")
+    print(f"Total: {len(fixed) + len(random_set)}")
