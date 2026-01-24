@@ -28,7 +28,7 @@ ENV/
 
 # Generated Data Files
 data/corpus.json
-data/fixed_urls.json
+# data/fixed_urls.json  # Keep this committed - assignment requires fixed 200 URLs
 data/*.faiss
 data/*.pkl
 data/*.csv

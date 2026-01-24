@@ -46,6 +46,7 @@ class RRFGrouper:
         dense_results: List[Tuple[Dict, float]],
         sparse_results: List[Tuple[Dict, float]],
         top_n_out: int = None,
+        preserve_top_dense: int = 1,
     ) -> List[Tuple[Dict, float]]:
         """
         Combine results from Dense and Sparse retrieval using RRF.
@@ -54,6 +55,7 @@ class RRFGrouper:
             dense_results: List of (chunk, score) from dense retrieval.
             sparse_results: List of (chunk, score) from sparse retrieval.
             top_n_out: Number of results to return.
+            preserve_top_dense: Guarantee top N dense results are included.
 
         Returns:
             List of (chunk, rrf_score) sorted by score descending.
@@ -61,6 +63,11 @@ class RRFGrouper:
         # Map chunks by ID and accumulate RRF scores
         chunk_map = {}
         rrf_scores = defaultdict(float)
+        
+        # Track top dense results to preserve
+        top_dense_ids = set()
+        for i, (chunk, score) in enumerate(dense_results[:preserve_top_dense]):
+            top_dense_ids.add(chunk["chunk_id"])
 
         # Process Dense results (1-based ranking)
         for rank, (chunk, score) in enumerate(dense_results, 1):
@@ -82,12 +89,23 @@ class RRFGrouper:
         sorted_ids = sorted(
             rrf_scores.keys(), key=lambda x: rrf_scores[x], reverse=True
         )
+        
+        # Ensure top dense results are in final output
+        final_ids = []
+        for cid in top_dense_ids:
+            if cid not in final_ids:
+                final_ids.append(cid)
+        
+        # Add remaining by RRF score
+        for cid in sorted_ids:
+            if cid not in final_ids:
+                final_ids.append(cid)
 
         if top_n_out is not None:
-            sorted_ids = sorted_ids[:top_n_out]
+            final_ids = final_ids[:top_n_out]
 
         final_results = []
-        for cid in sorted_ids:
+        for cid in final_ids:
             final_results.append((chunk_map[cid], rrf_scores[cid]))
 
         return final_results

@@ -19,7 +19,11 @@ class HybridRetriever:
 
         self.vector_index = VectorIndex()
         self.sparse_index = SparseIndex()
-        self.rrf_grouper = RRFGrouper(k_const=k_rrf)
+        self.rrf_grouper = RRFGrouper(
+            k_const=k_rrf,
+            weight_dense=Config.RRF_WEIGHT_DENSE,
+            weight_sparse=Config.RRF_WEIGHT_SPARSE
+        )
 
         self.output_log = []
 

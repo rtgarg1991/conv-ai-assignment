@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import sys
 import os
 import requests
+from urllib.parse import unquote
 
 
 class Scraper:
@@ -33,8 +34,9 @@ class Scraper:
     def scrape_url(self, url: str) -> dict:
         """Fetches and cleans text from a Wikipedia URL."""
         try:
-            # Extract title from URL
-            title = url.split("/wiki/")[-1].replace("_", " ")
+            # Extract and properly decode title from URL
+            raw_title = url.split("/wiki/")[-1]
+            title = unquote(raw_title).replace("_", " ")
 
             page = self.wiki.page(title)
             if not page.exists():

@@ -18,16 +18,8 @@ DATA_DIR.mkdir(exist_ok=True)
 class Config:
     """Central configuration for the Hybrid RAG system."""
 
-    # Environment
-    ENV = os.getenv("RAG_ENV", "LOCAL").upper()
-
-    # Device (M1 Support)
-    if torch.backends.mps.is_available():
-        DEVICE = "mps"
-    elif torch.cuda.is_available():
-        DEVICE = "cuda"
-    else:
-        DEVICE = "cpu"
+    ENV = "PROD"  # Use full 500 URLs
+    DEVICE = "mps"  # M4 Neural Engine
 
     # Paths
     DATA_DIR = DATA_DIR
@@ -39,7 +31,8 @@ class Config:
     EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
     # Generation Model Options: "gpt2", "gpt2-medium", "google/flan-t5-base", "google/flan-t5-small"
-    GENERATION_MODEL = "gpt2"
+    # GENERATION_MODEL = "gpt2"
+    GENERATION_MODEL = "google/flan-t5-base"  # M4 handles this perfectly
 
     # Legacy LLM name for backward compatibility
     LLM_MODEL_NAME = "google/flan-t5-base"
@@ -48,6 +41,11 @@ class Config:
     RRF_K = 60
     TOP_N_RETRIEVAL = 5
     MAX_CONTEXT_CHARS = 2000
+    
+    # RRF Weights - Dense (semantic) vs Sparse (keyword)
+    # Higher dense weight preserves semantic matches even when keywords don't match
+    RRF_WEIGHT_DENSE = 3.0
+    RRF_WEIGHT_SPARSE = 1.0
 
     @classmethod
     def get_url_counts(cls):
