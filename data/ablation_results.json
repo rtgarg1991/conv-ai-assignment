@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-02-07T17:54:00.787301",
+  "num_questions": 20,
+  "methods": {
+    "dense_only": {
+      "mrr": 0.5292,
+      "questions_evaluated": 20
+    },
+    "sparse_only": {
+      "mrr": 0.6,
+      "questions_evaluated": 20
+    },
+    "hybrid_k30": {
+      "mrr": 0.525,
+      "questions_evaluated": 20
+    },
+    "hybrid_k60": {
+      "mrr": 0.525,
+      "questions_evaluated": 20
+    },
+    "hybrid_k100": {
+      "mrr": 0.525,
+      "questions_evaluated": 20
+    }
+  },
+  "analysis": {
+    "best_method": "sparse_only",
+    "best_mrr": 0.6,
+    "worst_method": "hybrid_k30",
+    "worst_mrr": 0.525,
+    "dense_vs_sparse": "sparse",
+    "hybrid_improvement_pct": -12.5,
+    "recommendation": "Use sparse_only for optimal performance"
+  }
+}
