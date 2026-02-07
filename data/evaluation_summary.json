@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-02-07T19:38:02.425762",
+  "num_questions": 100,
+  "num_failed": 0,
+  "metrics": {
+    "mrr": 0.8925,
+    "rouge_l": 0.2902,
+    "bert_score": 0.737
+  },
+  "latency": {
+    "avg_seconds": 0.235,
+    "total_seconds": 23.518
+  },
+  "config": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "generation_model": "google/flan-t5-base",
+    "top_n_retrieval": 10,
+    "rrf_k": 60
+  }
+}
