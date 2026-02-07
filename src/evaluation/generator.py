@@ -52,20 +52,47 @@ class QAGenerator:
         self.model_service = ModelService()
         self.corpus_path = Config.CORPUS_PATH
         self.output_path = Config.DATA_DIR / "qa_dataset.json"
+        self.fixed_urls_path = Config.FIXED_URLS_PATH
         self.min_question_length = 10  # Filter out too-short questions
         self.question_types = list(QUESTION_TYPES.keys())
+        self.fixed_urls = set()  # Will be loaded
 
     def load_corpus(self):
         with open(self.corpus_path, "r") as f:
             self.chunks = json.load(f)
 
-    def generate_dataset(self, num_samples: int = 100):
-        """Generates Q&A pairs from diverse chunks across different articles."""
+        # Load fixed URLs to filter chunks
+        if self.fixed_urls_path.exists():
+            with open(self.fixed_urls_path, "r") as f:
+                self.fixed_urls = set(json.load(f))
+            print(f"Loaded {len(self.fixed_urls)} fixed URLs for filtering")
+
+    def generate_dataset(
+        self, num_samples: int = 100, use_fixed_only: bool = True
+    ):
+        """
+        Generates Q&A pairs from diverse chunks across different articles.
+
+        Args:
+            num_samples: Number of Q&A pairs to generate
+            use_fixed_only: If True, only use chunks from fixed URLs (recommended)
+        """
         self.load_corpus()
+
+        # Filter to fixed URLs only for consistent evaluation
+        if use_fixed_only and self.fixed_urls:
+            filtered_chunks = [
+                c for c in self.chunks if c["url"] in self.fixed_urls
+            ]
+            print(
+                f"Filtering to fixed URLs: {len(filtered_chunks)}/{len(self.chunks)} chunks"
+            )
+        else:
+            filtered_chunks = self.chunks
 
         # Group chunks by URL for diversity
         chunks_by_url = defaultdict(list)
-        for chunk in self.chunks:
+        for chunk in filtered_chunks:
             chunks_by_url[chunk["url"]].append(chunk)
 
         # Select chunks ensuring diversity across articles

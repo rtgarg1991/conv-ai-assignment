@@ -113,7 +113,7 @@ def main():
 
     # Step 5: Ablation Studies
     if not args.report_only:
-        sample_size = "10" if args.quick else "20"
+        sample_size = "20" if args.quick else "50"
         if not run_step(
             "Step 5: Running Ablation Studies",
             [
@@ -127,7 +127,7 @@ def main():
 
     # Step 6: Error Analysis
     if not args.report_only:
-        sample_size = "10" if args.quick else "20"
+        sample_size = "20" if args.quick else "50"
         if not run_step(
             "Step 6: Running Error Analysis",
             [

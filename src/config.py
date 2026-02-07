@@ -41,10 +41,10 @@ class Config:
     RRF_K = 60
     TOP_N_RETRIEVAL = 5
     MAX_CONTEXT_CHARS = 2000
-    
+
     # RRF Weights - Dense (semantic) vs Sparse (keyword)
-    # Higher dense weight preserves semantic matches even when keywords don't match
-    RRF_WEIGHT_DENSE = 3.0
+    # Balanced weights work better when Q&A comes from fixed URLs
+    RRF_WEIGHT_DENSE = 1.5
     RRF_WEIGHT_SPARSE = 1.0
 
     @classmethod

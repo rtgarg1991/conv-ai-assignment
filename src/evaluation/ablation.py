@@ -88,12 +88,29 @@ class AblationStudy:
         print(f"\nRunning ablation study on {len(dataset)} questions...")
 
         # Define methods to compare
+        # Includes different k values AND different weight ratios
         methods = [
             ("dense_only", self._retrieve_dense_only),
             ("sparse_only", self._retrieve_sparse_only),
-            ("hybrid_k30", lambda q: self._retrieve_hybrid(q, k=30)),
+            (
+                "hybrid_balanced",
+                lambda q: self._retrieve_hybrid_weighted(
+                    q, dense_w=1.0, sparse_w=1.0
+                ),
+            ),
+            (
+                "hybrid_dense_heavy",
+                lambda q: self._retrieve_hybrid_weighted(
+                    q, dense_w=2.0, sparse_w=1.0
+                ),
+            ),
+            (
+                "hybrid_sparse_heavy",
+                lambda q: self._retrieve_hybrid_weighted(
+                    q, dense_w=1.0, sparse_w=2.0
+                ),
+            ),
             ("hybrid_k60", lambda q: self._retrieve_hybrid(q, k=60)),
-            ("hybrid_k100", lambda q: self._retrieve_hybrid(q, k=100)),
         ]
 
         results = {}
@@ -163,6 +180,24 @@ class AblationStudy:
 
         return [chunk for chunk, score in fused]
 
+    def _retrieve_hybrid_weighted(
+        self,
+        query: str,
+        dense_w: float = 1.0,
+        sparse_w: float = 1.0,
+        top_n: int = 5,
+    ) -> List[Dict]:
+        """Retrieve using hybrid RRF with specified weight configuration."""
+        dense_results = self.vector_index.search(query, k=100)
+        sparse_results = self.sparse_index.search(query, k=100)
+
+        rrf = RRFGrouper(
+            k_const=60, weight_dense=dense_w, weight_sparse=sparse_w
+        )
+        fused = rrf.fuse(dense_results, sparse_results, top_n_out=top_n)
+
+        return [chunk for chunk, score in fused]
+
     def _generate_analysis(self, results: Dict) -> Dict:
         """Generate analysis comparing methods."""
         mrr_values = {method: data["mrr"] for method, data in results.items()}
@@ -174,10 +209,16 @@ class AblationStudy:
         dense_mrr = mrr_values.get("dense_only", 0)
         sparse_mrr = mrr_values.get("sparse_only", 0)
         best_single = max(dense_mrr, sparse_mrr)
-        best_hybrid = max(
-            mrr_values.get("hybrid_k30", 0),
-            mrr_values.get("hybrid_k60", 0),
-            mrr_values.get("hybrid_k100", 0),
+
+        # Get best hybrid (any method starting with 'hybrid')
+        hybrid_methods = {
+            k: v for k, v in mrr_values.items() if k.startswith("hybrid")
+        }
+        best_hybrid = max(hybrid_methods.values()) if hybrid_methods else 0
+        best_hybrid_name = (
+            max(hybrid_methods, key=hybrid_methods.get)
+            if hybrid_methods
+            else "N/A"
         )
 
         hybrid_improvement = (
@@ -194,6 +235,7 @@ class AblationStudy:
             "dense_vs_sparse": "dense"
             if dense_mrr > sparse_mrr
             else "sparse",
+            "best_hybrid_config": best_hybrid_name,
             "hybrid_improvement_pct": round(hybrid_improvement, 2),
             "recommendation": f"Use {best_method} for optimal performance",
         }
