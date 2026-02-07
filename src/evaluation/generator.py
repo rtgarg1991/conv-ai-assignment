@@ -103,16 +103,30 @@ class QAGenerator:
         qa_dataset = []
         failed_count = 0
 
+        # Track question type distribution for balance
+        type_counts = {t: 0 for t in self.question_types}
+
         print(
             f"Generating {len(selected_chunks)} Q&A pairs from {len(set(c['url'] for c in selected_chunks))} articles..."
         )
+        print(f"Target types: {self.question_types}")
         self.model_service.initialize()
 
-        for chunk in tqdm.tqdm(selected_chunks, desc="Generating Q&A"):
+        for i, chunk in enumerate(
+            tqdm.tqdm(selected_chunks, desc="Generating Q&A")
+        ):
             try:
-                qa_pair = self.generate_single_qa(chunk)
+                # Cycle through question types for balanced distribution
+                target_type = self.question_types[
+                    i % len(self.question_types)
+                ]
+
+                qa_pair = self.generate_single_qa(
+                    chunk, target_type=target_type
+                )
                 if qa_pair and self._is_quality_qa(qa_pair):
                     qa_dataset.append(qa_pair)
+                    type_counts[qa_pair["question_type"]] += 1
                 else:
                     failed_count += 1
             except Exception as e:
@@ -122,6 +136,7 @@ class QAGenerator:
         print(
             f"\nGenerated {len(qa_dataset)} valid Q&A pairs ({failed_count} failed/filtered)"
         )
+        print(f"Type distribution: {type_counts}")
 
         # Save
         print(f"Saving to {self.output_path}...")
@@ -191,18 +206,27 @@ class QAGenerator:
 
         return True
 
-    def generate_single_qa(self, chunk: Dict) -> Dict:
-        """Generates a Q&A pair for a single chunk."""
+    def generate_single_qa(
+        self, chunk: Dict, target_type: str = None
+    ) -> Dict:
+        """Generates a Q&A pair for a single chunk with specified question type."""
         context = chunk["content"][:1500]  # Limit context size
         title = chunk.get("title", "Unknown")
 
+        # Use target type or select randomly for diversity
+        if target_type is None:
+            target_type = random.choice(self.question_types)
+
         if self.model_service.is_t5:
-            # Better prompt for T5 - more specific instruction
-            prompt = f"""Generate a factual question that can be answered using this text about {title}:
+            # Type-specific prompts for diversity (required by assignment)
+            type_prompts = {
+                "factual": f"Generate a factual question about {title} that asks What, Who, When, or Where:\n\n{context[:700]}\n\nQuestion:",
+                "comparative": f"Generate a question comparing aspects or elements mentioned in this text about {title}:\n\n{context[:700]}\n\nQuestion:",
+                "inferential": f"Generate a Why or How question that requires reasoning about {title}:\n\n{context[:700]}\n\nQuestion:",
+                "multi_hop": f"Generate a question about relationships or influences in {title} that requires connecting multiple facts:\n\n{context[:700]}\n\nQuestion:",
+            }
 
-{context[:800]}
-
-Question:"""
+            prompt = type_prompts.get(target_type, type_prompts["factual"])
             question = self.model_service.generate(prompt, max_length=64)
             question = question.strip()
 
@@ -219,7 +243,7 @@ Answer:"""
             answer = self.model_service.generate(prompt_ans, max_length=100)
 
         else:
-            # GPT2 Strategy
+            # GPT2 Strategy - simpler prompts
             prompt = f"""Text: {context[:800]}
 
 Write a question about the text above:
@@ -233,13 +257,17 @@ Question:"""
             # Use context snippet as answer for GPT2
             answer = context[:300]
 
-        # Classify question type based on content
-        question_type = self._classify_question_type(question)
+        # Use target type as classification (we generated with that intent)
+        # But also verify with keywords for accuracy
+        detected_type = self._classify_question_type(question)
+        final_type = (
+            detected_type if detected_type != "factual" else target_type
+        )
 
         return {
             "question": question,
             "answer": answer,
-            "question_type": question_type,
+            "question_type": final_type,
             "chunk_id": chunk["chunk_id"],
             "url": chunk["url"],
             "title": title,

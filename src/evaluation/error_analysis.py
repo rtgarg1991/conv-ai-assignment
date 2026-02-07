@@ -190,9 +190,18 @@ class ErrorAnalyzer:
                 f"Ground truth found at rank {rank}, not #1",
             )
 
-        # Check answer quality (simple heuristic)
-        if len(generated_answer.strip()) < 10:
-            return "LOW_ANSWER_QUALITY", "Generated answer too short"
+        # Check answer quality (relaxed heuristic - only flag truly empty/bad answers)
+        answer_stripped = generated_answer.strip().lower()
+        if len(answer_stripped) < 2 or answer_stripped in [
+            "unanswerable",
+            "n/a",
+            "unknown",
+            "",
+        ]:
+            return (
+                "LOW_ANSWER_QUALITY",
+                "Generated answer empty or unanswerable",
+            )
 
         # Success
         return "SUCCESS", "Correct retrieval and reasonable answer"
