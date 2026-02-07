@@ -39,7 +39,7 @@ class Config:
 
     # Retrieval Parameters
     RRF_K = 60
-    TOP_N_RETRIEVAL = 5
+    TOP_N_RETRIEVAL = 10
     MAX_CONTEXT_CHARS = 2000
 
     # RRF Weights - Dense (semantic) vs Sparse (keyword)
