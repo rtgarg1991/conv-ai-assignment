@@ -68,6 +68,7 @@ class EvaluationRunner:
                 results.append(
                     {
                         "question": query,
+                        "question_type": item.get("question_type", ""),
                         "ground_truth_url": item["url"],
                         "retrieved_urls": [
                             c["url"] for c in rag_output["retrieved_chunks"]

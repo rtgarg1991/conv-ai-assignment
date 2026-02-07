@@ -149,28 +149,23 @@ class URLLoader:
         pages = []
         if exclude_titles is None:
             exclude_titles = set()
+        # Normalize to lowercase for consistent dedup
+        exclude_titles = {t.lower() for t in exclude_titles}
 
         print(f"Fetching {count} random pages...")
 
-        # Strategy 1: Featured/Good articles first (guaranteed quality)
-        featured_target = min(count, 200)  # Quality articles are reliable
-        pages.extend(
-            self._fetch_featured_articles(featured_target, exclude_titles)
-        )
-
-        # Update exclude set (use lowercase for consistent dedup)
-        for url in pages:
-            raw_title = url.split("/wiki/")[-1]
-            title = unquote(raw_title).replace("_", " ").lower()
-            exclude_titles.add(title)
-
-        # Strategy 2: Category-based for diversity (to reach target)
-        if len(pages) < count:
-            category_target = (
-                count - len(pages) + 50
-            )  # Fetch extra, some may be duplicates
+        # Strategy 1: Category-based for diversity (up to 30% of requested)
+        category_target = min(int(count * 0.3), 100)
+        if category_target > 0:
             pages.extend(
                 self._fetch_from_categories(category_target, exclude_titles)
+            )
+
+        # Strategy 2: Random API for remaining
+        api_target = max(count - len(pages), 0)
+        if api_target > 0:
+            pages.extend(
+                self._fetch_via_random_api(api_target, exclude_titles, pages)
             )
 
         print(f"\nSuccessfully fetched {len(pages)}/{count} valid articles.")
@@ -365,12 +360,13 @@ class URLLoader:
 
                 if url and url not in existing_urls:
                     title = url.split("/wiki/")[-1].replace("_", " ")
-                    if title not in exclude_titles:
+                    title_lower = title.lower()
+                    if title_lower not in exclude_titles:
                         # Skip validation for speed - scraper will filter later
                         if skip_validation or self.validate_article(url):
                             pages.append(url)
                             existing_urls.add(url)
-                            exclude_titles.add(title)
+                            exclude_titles.add(title_lower)
                             print(
                                 f"Random API: {len(pages)}/{target}", end="\r"
                             )
@@ -564,8 +560,8 @@ class URLLoader:
         self, existing_urls: List[str], count: int = None
     ) -> List[str]:
         """
-        Generate random URLs from articles related to the fixed set.
-        Ensures thematic continuity while being random.
+        Generate random URLs using Wikipedia's Random API + category mix.
+        Ensures no overlap with existing URLs.
 
         Args:
             existing_urls: Fixed URLs to get related articles from.
@@ -575,8 +571,19 @@ class URLLoader:
             List of random Wikipedia URLs (validated, no duplicates).
         """
         target = count if count is not None else self.random_count
-        print(f"Fetching {target} random articles related to fixed set...")
-        return self.fetch_related_articles(existing_urls, target)
+
+        # Build exclude set from existing URLs
+        exclude_titles = set()
+        for url in existing_urls:
+            try:
+                raw_title = url.split("/wiki/")[-1]
+                decoded_title = unquote(raw_title).replace("_", " ").lower()
+                exclude_titles.add(decoded_title)
+            except Exception:
+                continue
+
+        print(f"Fetching {target} random articles (API + categories)...")
+        return self.get_random_pages(target, exclude_titles)
 
 
 if __name__ == "__main__":

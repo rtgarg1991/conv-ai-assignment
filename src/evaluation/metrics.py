@@ -27,11 +27,26 @@ class MetricsEvaluator:
 
         for gt_id, results in zip(ground_truth_ids, retrieved_results_lists):
             rank = 0
-            for i, item in enumerate(results):
-                # Check for match (chunk_id or url)
-                if item.get("chunk_id") == gt_id or item.get("url") == gt_id:
-                    rank = i + 1
-                    break
+
+            # URL-level MRR: collapse to unique URL ranks if gt_id is a URL
+            if isinstance(gt_id, str) and gt_id.startswith("http"):
+                seen_urls = set()
+                url_rank = 0
+                for item in results:
+                    url = item.get("url")
+                    if not url or url in seen_urls:
+                        continue
+                    seen_urls.add(url)
+                    url_rank += 1
+                    if url == gt_id:
+                        rank = url_rank
+                        break
+            else:
+                # Chunk-level fallback
+                for i, item in enumerate(results):
+                    if item.get("chunk_id") == gt_id:
+                        rank = i + 1
+                        break
 
             if rank > 0:
                 reciprocal_ranks.append(1.0 / rank)

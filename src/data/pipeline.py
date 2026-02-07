@@ -40,6 +40,8 @@ class DataPipeline:
         # 2. Scrape & Chunk
         all_chunks = []
         documents_processed = 0
+        fixed_count, random_count = Config.get_url_counts()
+        target_urls = fixed_count + random_count
 
         for url in tqdm(all_urls, desc="Processing URLs"):
             # Scrape
@@ -60,8 +62,6 @@ class DataPipeline:
 
         # 3. Check if we have enough URLs, retry if needed
         processed_urls = set(c["url"] for c in all_chunks)
-        target_urls = Config.NUM_FIXED_URLS + Config.NUM_RANDOM_URLS
-
         retry_count = 0
         max_retries = 10
         while len(processed_urls) < target_urls and retry_count < max_retries:
