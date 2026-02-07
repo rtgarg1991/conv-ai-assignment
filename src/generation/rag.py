@@ -109,6 +109,44 @@ Answer:"""
             "retrieved_chunks": retrieved_chunks[:3],
         }
 
+    def answer_question_with_details(self, query: str) -> Dict:
+        """
+        Run RAG pipeline with detailed retrieval scores for UI display.
+
+        Returns:
+            Dictionary with answer, chunks with individual scores, and timing.
+        """
+        import time
+
+        if self.retriever.vector_index.index is None:
+            self.initialize()
+
+        # Retrieve with detailed scores
+        print(f"Retrieving context for: {query}")
+        retrieval_result = self.retriever.retrieve_with_details(query)
+        enriched_chunks = retrieval_result["final_results"]
+
+        # Construct prompt using basic chunk structure
+        chunks_for_prompt = [
+            {"content": c["content"], "title": c["title"]}
+            for c in enriched_chunks
+        ]
+        prompt = self.construct_prompt(query, chunks_for_prompt)
+
+        # Generate answer with timing
+        print("Generating answer...")
+        start = time.time()
+        answer = self.model_service.generate(prompt, max_new_tokens=150)
+        generation_ms = (time.time() - start) * 1000
+
+        return {
+            "query": query,
+            "answer": answer,
+            "retrieved_chunks": enriched_chunks[:5],
+            "timing": retrieval_result["timing"],
+            "generation_ms": round(generation_ms, 2),
+        }
+
 
 if __name__ == "__main__":
     rag = RAGService()

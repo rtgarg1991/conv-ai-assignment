@@ -86,26 +86,47 @@ def main():
     if user_query:
         with st.spinner("Processing query..."):
             start_time = time.time()
-            result = rag_service.answer_question(user_query)
-            latency = time.time() - start_time
+            result = rag_service.answer_question_with_details(user_query)
+            total_latency = time.time() - start_time
 
         # Display Answer
         st.success(f"**Answer:** {result['answer']}")
-        st.caption(f"Latency: {latency:.2f}s")
 
-        # Display Retrieved Context
-        with st.expander("Retrieved Context (Hybrid RRF)"):
+        # Latency breakdown
+        timing = result.get("timing", {})
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("Total", f"{total_latency:.2f}s")
+        col2.metric("Dense", f"{timing.get('dense_ms', 0):.0f}ms")
+        col3.metric("Sparse", f"{timing.get('sparse_ms', 0):.0f}ms")
+        col4.metric("Generation", f"{result.get('generation_ms', 0):.0f}ms")
+
+        # Display Retrieved Context with individual scores
+        with st.expander("🔍 Retrieved Context (Hybrid RRF)", expanded=True):
             for i, chunk in enumerate(result["retrieved_chunks"], 1):
-                st.markdown(
-                    f"**{i}. {chunk['title']}** (Score: {chunk.get('score', 'N/A')})"
+                # Score badges
+                dense_score = chunk.get("dense_score", 0)
+                sparse_score = chunk.get("sparse_score", 0)
+                rrf_score = chunk.get("rrf_score", 0)
+
+                st.markdown(f"### {i}. {chunk['title']}")
+
+                # Score display in columns
+                sc1, sc2, sc3 = st.columns(3)
+                sc1.metric("Dense", f"{dense_score:.4f}")
+                sc2.metric("Sparse", f"{sparse_score:.2f}")
+                sc3.metric("RRF", f"{rrf_score:.4f}")
+
+                st.info(
+                    chunk["content"][:500] + "..."
+                    if len(chunk["content"]) > 500
+                    else chunk["content"]
                 )
-                st.info(chunk["content"])
-                st.markdown(f"[Source]({chunk['url']})")
+                st.markdown(f"[📄 Source]({chunk['url']})")
                 st.divider()
 
     # Footer
     st.divider()
-    st.caption("Hybrid RAG System | Dense + Sparse + RRF")
+    st.caption("Hybrid RAG System | Dense + Sparse + RRF | Assignment 2")
 
 
 if __name__ == "__main__":

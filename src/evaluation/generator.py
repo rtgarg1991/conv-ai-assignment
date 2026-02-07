@@ -11,6 +11,41 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../.."))
 from src.config import Config
 from src.generation.model_service import ModelService
 
+# Question type definitions with prompts
+QUESTION_TYPES = {
+    "factual": {
+        "description": "Direct factual questions with single clear answers",
+        "prompts": [
+            "What is {topic}?",
+            "When did {event} happen?",
+            "Who is {person}?",
+            "Where is {place} located?",
+        ],
+    },
+    "comparative": {
+        "description": "Questions comparing two or more entities",
+        "prompts": [
+            "How does {topic} compare to similar concepts?",
+            "What are the key differences in {topic}?",
+        ],
+    },
+    "inferential": {
+        "description": "Questions requiring reasoning from given facts",
+        "prompts": [
+            "Why is {topic} significant?",
+            "What caused {event}?",
+            "What are the implications of {topic}?",
+        ],
+    },
+    "multi_hop": {
+        "description": "Questions requiring multiple facts to answer",
+        "prompts": [
+            "How did {topic} influence later developments?",
+            "What connections exist between aspects of {topic}?",
+        ],
+    },
+}
+
 
 class QAGenerator:
     def __init__(self):
@@ -18,6 +53,7 @@ class QAGenerator:
         self.corpus_path = Config.CORPUS_PATH
         self.output_path = Config.DATA_DIR / "qa_dataset.json"
         self.min_question_length = 10  # Filter out too-short questions
+        self.question_types = list(QUESTION_TYPES.keys())
 
     def load_corpus(self):
         with open(self.corpus_path, "r") as f:
@@ -31,14 +67,18 @@ class QAGenerator:
         chunks_by_url = defaultdict(list)
         for chunk in self.chunks:
             chunks_by_url[chunk["url"]].append(chunk)
-        
+
         # Select chunks ensuring diversity across articles
-        selected_chunks = self._select_diverse_chunks(chunks_by_url, num_samples)
-        
+        selected_chunks = self._select_diverse_chunks(
+            chunks_by_url, num_samples
+        )
+
         qa_dataset = []
         failed_count = 0
 
-        print(f"Generating {len(selected_chunks)} Q&A pairs from {len(set(c['url'] for c in selected_chunks))} articles...")
+        print(
+            f"Generating {len(selected_chunks)} Q&A pairs from {len(set(c['url'] for c in selected_chunks))} articles..."
+        )
         self.model_service.initialize()
 
         for chunk in tqdm.tqdm(selected_chunks, desc="Generating Q&A"):
@@ -52,54 +92,76 @@ class QAGenerator:
                 print(f"\nError generating Q&A: {e}")
                 failed_count += 1
 
-        print(f"\nGenerated {len(qa_dataset)} valid Q&A pairs ({failed_count} failed/filtered)")
-        
+        print(
+            f"\nGenerated {len(qa_dataset)} valid Q&A pairs ({failed_count} failed/filtered)"
+        )
+
         # Save
         print(f"Saving to {self.output_path}...")
         with open(self.output_path, "w") as f:
             json.dump(qa_dataset, f, indent=2)
 
-    def _select_diverse_chunks(self, chunks_by_url: Dict, num_samples: int) -> List[Dict]:
+    def _select_diverse_chunks(
+        self, chunks_by_url: Dict, num_samples: int
+    ) -> List[Dict]:
         """Select chunks ensuring diversity across different articles."""
         selected = []
         urls = list(chunks_by_url.keys())
         random.shuffle(urls)
-        
+
         # Round-robin selection from different URLs
         url_idx = 0
         while len(selected) < num_samples and urls:
             url = urls[url_idx % len(urls)]
             chunks = chunks_by_url[url]
-            
+
             if chunks:
                 # Pick a random chunk from this URL
                 chunk = random.choice(chunks)
                 selected.append(chunk)
                 chunks.remove(chunk)  # Don't pick same chunk twice
-                
+
                 # Remove URL if no more chunks
                 if not chunks:
                     urls.remove(url)
-            
+
             url_idx += 1
-        
+
         return selected
-    
+
     def _is_quality_qa(self, qa_pair: Dict) -> bool:
         """Check if generated Q&A pair meets quality criteria."""
         question = qa_pair.get("question", "")
-        
+
         # Filter criteria
         if len(question) < self.min_question_length:
             return False
         if not question.strip():
             return False
         # Should look like a question (ends with ? or contains question words)
-        question_indicators = ["?", "what", "who", "where", "when", "why", "how", "which", "is ", "are ", "was ", "were ", "do ", "does ", "did "]
-        has_indicator = any(ind in question.lower() for ind in question_indicators)
+        question_indicators = [
+            "?",
+            "what",
+            "who",
+            "where",
+            "when",
+            "why",
+            "how",
+            "which",
+            "is ",
+            "are ",
+            "was ",
+            "were ",
+            "do ",
+            "does ",
+            "did ",
+        ]
+        has_indicator = any(
+            ind in question.lower() for ind in question_indicators
+        )
         if not has_indicator:
             return False
-        
+
         return True
 
     def generate_single_qa(self, chunk: Dict) -> Dict:
@@ -116,7 +178,7 @@ class QAGenerator:
 Question:"""
             question = self.model_service.generate(prompt, max_length=64)
             question = question.strip()
-            
+
             # Ensure it ends with ?
             if question and not question.endswith("?"):
                 question += "?"
@@ -137,21 +199,83 @@ Write a question about the text above:
 Question:"""
             question = self.model_service.generate(prompt, max_new_tokens=50)
             question = question.split("\n")[0].strip()
-            
+
             if question and not question.endswith("?"):
                 question += "?"
-            
+
             # Use context snippet as answer for GPT2
             answer = context[:300]
+
+        # Classify question type based on content
+        question_type = self._classify_question_type(question)
 
         return {
             "question": question,
             "answer": answer,
+            "question_type": question_type,
             "chunk_id": chunk["chunk_id"],
             "url": chunk["url"],
             "title": title,
             "ground_truth_context": chunk["content"],
         }
+
+    def _classify_question_type(self, question: str) -> str:
+        """
+        Classify question into one of the defined types based on keywords.
+
+        Categories:
+        - factual: What/Who/When/Where questions
+        - comparative: Questions with compare/difference/versus
+        - inferential: Why/How questions requiring reasoning
+        - multi_hop: Questions about influence/connections/implications
+        """
+        q_lower = question.lower()
+
+        # Multi-hop indicators (check first - most specific)
+        if any(
+            word in q_lower
+            for word in [
+                "influence",
+                "connection",
+                "led to",
+                "result in",
+                "relationship between",
+            ]
+        ):
+            return "multi_hop"
+
+        # Comparative indicators
+        if any(
+            word in q_lower
+            for word in [
+                "compare",
+                "difference",
+                "versus",
+                "vs",
+                "similar",
+                "unlike",
+                "between",
+            ]
+        ):
+            return "comparative"
+
+        # Inferential indicators
+        if any(
+            word in q_lower
+            for word in [
+                "why",
+                "how did",
+                "explain",
+                "cause",
+                "reason",
+                "significance",
+                "important",
+            ]
+        ):
+            return "inferential"
+
+        # Default to factual (What/Who/When/Where)
+        return "factual"
 
 
 if __name__ == "__main__":

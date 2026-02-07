@@ -22,7 +22,7 @@ class HybridRetriever:
         self.rrf_grouper = RRFGrouper(
             k_const=k_rrf,
             weight_dense=Config.RRF_WEIGHT_DENSE,
-            weight_sparse=Config.RRF_WEIGHT_SPARSE
+            weight_sparse=Config.RRF_WEIGHT_SPARSE,
         )
 
         self.output_log = []
@@ -63,6 +63,66 @@ class HybridRetriever:
         )
 
         return final_results
+
+    def retrieve_with_details(self, query: str) -> Dict:
+        """
+        Performs hybrid retrieval and returns detailed scores for each method.
+
+        Returns:
+            Dict with 'final_results', 'dense_results', 'sparse_results',
+            and score breakdowns for UI display.
+        """
+        import time
+
+        # Dense Search with timing
+        start = time.time()
+        dense_results = self.vector_index.search(query, k=self.k_retrieval)
+        dense_time = time.time() - start
+
+        # Sparse Search with timing
+        start = time.time()
+        sparse_results = self.sparse_index.search(query, k=self.k_retrieval)
+        sparse_time = time.time() - start
+
+        # RRF with timing
+        start = time.time()
+        final_results = self.rrf_grouper.fuse(
+            dense_results, sparse_results, top_n_out=self.k_final
+        )
+        rrf_time = time.time() - start
+
+        # Build score lookup tables
+        dense_scores = {
+            chunk["chunk_id"]: score for chunk, score in dense_results
+        }
+        sparse_scores = {
+            chunk["chunk_id"]: score for chunk, score in sparse_results
+        }
+
+        # Enrich final results with individual scores
+        enriched_results = []
+        for chunk, rrf_score in final_results:
+            chunk_id = chunk["chunk_id"]
+            enriched_results.append(
+                {
+                    **chunk,
+                    "rrf_score": round(rrf_score, 4),
+                    "dense_score": round(dense_scores.get(chunk_id, 0), 4),
+                    "sparse_score": round(sparse_scores.get(chunk_id, 0), 4),
+                }
+            )
+
+        return {
+            "final_results": enriched_results,
+            "timing": {
+                "dense_ms": round(dense_time * 1000, 2),
+                "sparse_ms": round(sparse_time * 1000, 2),
+                "rrf_ms": round(rrf_time * 1000, 2),
+                "total_ms": round(
+                    (dense_time + sparse_time + rrf_time) * 1000, 2
+                ),
+            },
+        }
 
 
 if __name__ == "__main__":
