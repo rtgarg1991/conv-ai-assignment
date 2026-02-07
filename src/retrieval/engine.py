@@ -12,7 +12,10 @@ from src.retrieval.rrf import RRFGrouper
 
 class HybridRetriever:
     def __init__(
-        self, k_retrieval: int = 100, k_rrf: int = 60, k_final: int = 5
+        self,
+        k_retrieval: int = 100,
+        k_rrf: int = 60,
+        k_final: int = Config.TOP_N_RETRIEVAL,
     ):
         self.k_retrieval = k_retrieval
         self.k_final = k_final

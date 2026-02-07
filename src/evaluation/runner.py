@@ -42,7 +42,23 @@ class EvaluationRunner:
         gen_answers = []
 
         print("Running Inference...")
-        for item in tqdm.tqdm(dataset, desc="Evaluating"):
+        def _url_rank(gt_url: str, retrieved_chunks: List[Dict]) -> int:
+            """Return 1-based rank of gt_url among unique retrieved URLs, else 0."""
+            seen = set()
+            url_rank = 0
+            for c in retrieved_chunks:
+                url = c.get("url")
+                if not url or url in seen:
+                    continue
+                seen.add(url)
+                url_rank += 1
+                if url == gt_url:
+                    return url_rank
+            return 0
+
+        for idx, item in enumerate(
+            tqdm.tqdm(dataset, desc="Evaluating"), start=1
+        ):
             query = item["question"]
 
             try:
@@ -57,6 +73,10 @@ class EvaluationRunner:
                 retrieved_chunks_for_mrr = rag_output["retrieved_chunks"]
                 retrieved_results.append(retrieved_chunks_for_mrr)
 
+                # Per-question MRR (URL-level)
+                rank = _url_rank(item["url"], retrieved_chunks_for_mrr)
+                per_question_mrr = (1.0 / rank) if rank > 0 else 0.0
+
                 ref_answers.append(
                     item["answer"]
                     if (item.get("answer") and len(item["answer"]) > 5)
@@ -67,6 +87,7 @@ class EvaluationRunner:
                 # Item Result
                 results.append(
                     {
+                        "question_id": idx,
                         "question": query,
                         "question_type": item.get("question_type", ""),
                         "ground_truth_url": item["url"],
@@ -75,6 +96,7 @@ class EvaluationRunner:
                         ],
                         "generated_answer": rag_output["answer"],
                         "reference_answer": item.get("answer", ""),
+                        "mrr": round(per_question_mrr, 4),
                         "latency_seconds": round(latency, 3),
                     }
                 )
@@ -86,6 +108,19 @@ class EvaluationRunner:
         print(f"\nProcessed {len(results)}/{len(dataset)} questions ({failed_count} failed)")
         
         print("Calculating Metrics...")
+        # Per-question ROUGE-L and BERTScore
+        rouge_list = self.metrics_evaluator.calculate_rouge_list(
+            ref_answers, gen_answers
+        )
+        bert_list = self.metrics_evaluator.calculate_bertscore_list(
+            ref_answers, gen_answers
+        )
+        for i in range(len(results)):
+            if i < len(rouge_list):
+                results[i]["rouge_l"] = round(rouge_list[i], 4)
+            if i < len(bert_list):
+                results[i]["bert_score"] = round(bert_list[i], 4)
+
         mrr_score = self.metrics_evaluator.calculate_mrr(
             ground_truth_urls, retrieved_results
         )

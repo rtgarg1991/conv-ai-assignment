@@ -65,6 +65,16 @@ class MetricsEvaluator:
             scores.append(score["rougeL"].fmeasure)
         return np.mean(scores) if scores else 0.0
 
+    def calculate_rouge_list(
+        self, references: List[str], hypotheses: List[str]
+    ) -> List[float]:
+        """Calculates per-example ROUGE-L F1 scores."""
+        scores = []
+        for ref, hyp in zip(references, hypotheses):
+            score = self.rouge_scorer.score(ref, hyp)
+            scores.append(score["rougeL"].fmeasure)
+        return scores
+
     def calculate_bertscore(
         self, references: List[str], hypotheses: List[str]
     ) -> float:
@@ -82,6 +92,23 @@ class MetricsEvaluator:
             model_type="distilbert-base-uncased",
         )
         return F1.mean().item()
+
+    def calculate_bertscore_list(
+        self, references: List[str], hypotheses: List[str]
+    ) -> List[float]:
+        """Calculates per-example BERTScore F1."""
+        if not references or not hypotheses:
+            return []
+
+        P, R, F1 = score(
+            hypotheses,
+            references,
+            lang="en",
+            verbose=False,
+            device=self.device,
+            model_type="distilbert-base-uncased",
+        )
+        return [v.item() for v in F1]
 
 
 if __name__ == "__main__":

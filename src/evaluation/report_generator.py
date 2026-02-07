@@ -10,6 +10,9 @@ Generates comprehensive HTML evaluation reports with:
 """
 
 import json
+import csv
+import ast
+from collections import defaultdict
 import sys
 import os
 from datetime import datetime
@@ -92,9 +95,12 @@ class ReportGenerator:
         ablation = self._load_json("ablation_results.json")
         error_analysis = self._load_json("error_analysis.json")
         qa_dataset = self._load_json("qa_dataset.json")
+        eval_results = self._load_csv("evaluation_results.csv")
 
         # Generate HTML
-        html = self._build_html(summary, ablation, error_analysis, qa_dataset)
+        html = self._build_html(
+            summary, ablation, error_analysis, qa_dataset, eval_results
+        )
 
         # Save
         with open(self.report_path, "w", encoding="utf-8") as f:
@@ -111,12 +117,22 @@ class ReportGenerator:
                 return json.load(f)
         return None
 
+    def _load_csv(self, filename: str) -> Optional[List[Dict]]:
+        """Load CSV file if exists."""
+        path = self.data_dir / filename
+        if not path.exists():
+            return None
+        with open(path, "r", newline="") as f:
+            reader = csv.DictReader(f)
+            return list(reader)
+
     def _build_html(
         self,
         summary: Optional[Dict],
         ablation: Optional[Dict],
         error_analysis: Optional[Dict],
         qa_dataset: Optional[List],
+        eval_results: Optional[List[Dict]],
     ) -> str:
         """Build complete HTML report."""
 
@@ -226,6 +242,7 @@ class ReportGenerator:
         {self._section_metrics_justification()}
         {self._section_ablation(ablation)}
         {self._section_error_analysis(error_analysis)}
+        {self._section_retrieval_heatmap(eval_results)}
         {self._section_question_analysis(qa_dataset)}
         {self._section_config(summary)}
     </div>
@@ -399,6 +416,99 @@ class ReportGenerator:
         <div class="card">
             <h3>Recommendations</h3>
             <ul>{rec_html}</ul>
+        </div>
+        """
+
+    def _section_retrieval_heatmap(
+        self, eval_results: Optional[List[Dict]]
+    ) -> str:
+        """Generate a simple retrieval heatmap (rank distribution by question type)."""
+        if not eval_results:
+            return ""
+
+        # Determine max rank (use configured top-N if present)
+        max_rank = (
+            int(Config.TOP_N_RETRIEVAL)
+            if hasattr(Config, "TOP_N_RETRIEVAL")
+            else 10
+        )
+        if max_rank <= 0:
+            max_rank = 10
+
+        # Count ranks by question type
+        counts = defaultdict(lambda: defaultdict(int))
+        for row in eval_results:
+            qtype = row.get("question_type", "unknown") or "unknown"
+            gt_url = row.get("ground_truth_url")
+            retrieved_raw = row.get("retrieved_urls", "")
+
+            try:
+                retrieved = (
+                    ast.literal_eval(retrieved_raw)
+                    if isinstance(retrieved_raw, str)
+                    else retrieved_raw
+                )
+            except Exception:
+                retrieved = []
+
+            # URL-level rank among unique URLs
+            seen = set()
+            rank = 0
+            url_rank = 0
+            for url in retrieved or []:
+                if url in seen:
+                    continue
+                seen.add(url)
+                url_rank += 1
+                if url == gt_url:
+                    rank = url_rank
+                    break
+
+            if rank <= 0 or rank > max_rank:
+                counts[qtype]["miss"] += 1
+            else:
+                counts[qtype][rank] += 1
+
+        # Find max count for color scaling
+        max_count = 1
+        for by_rank in counts.values():
+            for value in by_rank.values():
+                if value > max_count:
+                    max_count = value
+
+        # Build table rows
+        header_cells = "".join(
+            [f"<th>{i}</th>" for i in range(1, max_rank + 1)]
+        ) + "<th>Miss</th>"
+
+        rows = ""
+        for qtype in sorted(counts.keys()):
+            cells = ""
+            for i in range(1, max_rank + 1):
+                val = counts[qtype].get(i, 0)
+                alpha = 0.1 + 0.9 * (val / max_count) if val > 0 else 0.05
+                cells += (
+                    f"<td style='background-color: rgba(67,97,238,{alpha:.2f})'>{val}</td>"
+                )
+            miss_val = counts[qtype].get("miss", 0)
+            alpha = 0.1 + 0.9 * (miss_val / max_count) if miss_val > 0 else 0.05
+            cells += (
+                f"<td style='background-color: rgba(230,57,70,{alpha:.2f})'>{miss_val}</td>"
+            )
+            rows += f"<tr><td>{qtype}</td>{cells}</tr>"
+
+        return f"""
+        <h2>🔥 Retrieval Heatmap (Rank Distribution by Question Type)</h2>
+        <div class="card">
+            <p>Heatmap shows how often the correct URL appears at each rank (Top-{max_rank}).</p>
+            <table>
+                <thead>
+                    <tr><th>Question Type</th>{header_cells}</tr>
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+            </table>
         </div>
         """
 
