@@ -1,0 +1,741 @@
+{
+  "timestamp": "2026-02-07T18:23:37.677578",
+  "summary": {
+    "total_questions": 50,
+    "categories": {
+      "RANK_DEGRADED": {
+        "count": 9,
+        "percentage": 18.0
+      },
+      "LOW_ANSWER_QUALITY": {
+        "count": 17,
+        "percentage": 34.0
+      },
+      "RETRIEVAL_MISS": {
+        "count": 6,
+        "percentage": 12.0
+      },
+      "SUCCESS": {
+        "count": 18,
+        "percentage": 36.0
+      }
+    },
+    "success_rate": 36.0,
+    "retrieval_accuracy": 88.0
+  },
+  "errors_by_question_type": {
+    "factual": {
+      "error_count": 32,
+      "sample_errors": [
+        "What did Michelangelo request to be buried in his ",
+        "When did the Great Barrier Reef drift into tropica",
+        "What is another potential pathway to cost reductio"
+      ]
+    }
+  },
+  "recommendations": [
+    "ANSWER QUALITY: Consider using larger LLM or improving prompt engineering"
+  ],
+  "detailed_results": [
+    {
+      "question_id": 0,
+      "question": "What did Michelangelo request to be buried in his beloved Florence?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Michelangelo",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Blockchain",
+        "https://en.wikipedia.org/wiki/Michelangelo",
+        "https://en.wikipedia.org/wiki/Blockchain"
+      ],
+      "generated_answer": "a statue",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 1,
+      "question": "When did the Great Barrier Reef drift into tropical waters?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Great_Barrier_Reef",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Great_Barrier_Reef",
+        "https://en.wikipedia.org/wiki/Great_Barrier_Reef",
+        "https://en.wikipedia.org/wiki/Great_Barrier_Reef"
+      ],
+      "generated_answer": "1802",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 2,
+      "question": "What is another potential pathway to cost reduction?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Solar_cell",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Muhammad_Yunus",
+        "https://en.wikipedia.org/wiki/Climate_change",
+        "https://en.wikipedia.org/wiki/Climate_change"
+      ],
+      "generated_answer": "a rural economic programme",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 3,
+      "question": "Who was the government agent who had reported the group?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Fyodor_Dostoevsky",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/September_11_attacks",
+        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
+        "https://en.wikipedia.org/wiki/Jimmy_Carter"
+      ],
+      "generated_answer": "Yosri Fouda",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 4,
+      "question": "How many square miles of London are there?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/London",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/London",
+        "https://en.wikipedia.org/wiki/London",
+        "https://en.wikipedia.org/wiki/London"
+      ],
+      "generated_answer": "1",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 5,
+      "question": "What is the capital city of So Paulo?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+        "https://en.wikipedia.org/wiki/Niels_Bohr",
+        "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo"
+      ],
+      "generated_answer": "So Paulo",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 6,
+      "question": "What is the largest park in the Sydney metropolitan area?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Sydney",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Sydney",
+        "https://en.wikipedia.org/wiki/Sydney",
+        "https://en.wikipedia.org/wiki/Sydney"
+      ],
+      "generated_answer": "Central River City",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 7,
+      "question": "How many etchings did Rembrandt make?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Rembrandt",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Rembrandt",
+        "https://en.wikipedia.org/wiki/Rembrandt",
+        "https://en.wikipedia.org/wiki/Rembrandt"
+      ],
+      "generated_answer": "nearly 400",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 8,
+      "question": "Who was the first Egyptian to receive a science Nobel Prize when he was born?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ahmed_Zewail",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Albert_Einstein",
+        "https://en.wikipedia.org/wiki/Albert_Einstein",
+        "https://en.wikipedia.org/wiki/Adolf_Windaus"
+      ],
+      "generated_answer": "Podolsky",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 9,
+      "question": "When was Grace Hopper promoted to commodore?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Grace_Hopper",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Grace_Hopper",
+        "https://en.wikipedia.org/wiki/Grace_Hopper",
+        "https://en.wikipedia.org/wiki/Grace_Hopper"
+      ],
+      "generated_answer": "1977",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 10,
+      "question": "What is one of the oldest arts in Mexico?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mexico",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mexico",
+        "https://en.wikipedia.org/wiki/1975_United_Kingdom_European_Communities_membership_referendum",
+        "https://en.wikipedia.org/wiki/Mexico"
+      ],
+      "generated_answer": "art",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 11,
+      "question": "What did the Catholic Church prohibit his books in 1663?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Alberto_Giacometti",
+        "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes",
+        "https://en.wikipedia.org/wiki/Renaissance"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 12,
+      "question": "In what year did Muhammad Ali Pasha rule Egypt?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Egypt",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Egypt",
+        "https://en.wikipedia.org/wiki/Egypt",
+        "https://en.wikipedia.org/wiki/Ottoman_Empire"
+      ],
+      "generated_answer": "1922",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 13,
+      "question": "What are the benefits of blockchain technology?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Blockchain",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Blockchain",
+        "https://en.wikipedia.org/wiki/Blockchain",
+        "https://en.wikipedia.org/wiki/Blockchain"
+      ],
+      "generated_answer": "shorter block time means faster transactions",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 14,
+      "question": "What was Chinua Achebe's profession?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Chinua_Achebe",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Jane_Austen",
+        "https://en.wikipedia.org/wiki/Chinua_Achebe",
+        "https://en.wikipedia.org/wiki/Chinua_Achebe"
+      ],
+      "generated_answer": "novelist",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 15,
+      "question": "How many searchlights were installed at the footprints of the World Trade Center?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/September_11_attacks",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/September_11_attacks",
+        "https://en.wikipedia.org/wiki/September_11_attacks",
+        "https://en.wikipedia.org/wiki/Aaron_Copland"
+      ],
+      "generated_answer": "two",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 16,
+      "question": "What is France's second leading tourist destination?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/France",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/France",
+        "https://en.wikipedia.org/wiki/France",
+        "https://en.wikipedia.org/wiki/British_Empire"
+      ],
+      "generated_answer": "Eiffel Tower",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 17,
+      "question": "What did Dal's father do at Cadaqu\u00e9s?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Salvador_Dal%C3%AD",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Car",
+        "https://en.wikipedia.org/wiki/Women%27s_suffrage",
+        "https://en.wikipedia.org/wiki/Paul_Dirac"
+      ],
+      "generated_answer": "fought in the Spanish Civil War",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 18,
+      "question": "Who was Sylvie Le Bon-de Beauvoir's adopted daughter?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
+        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
+        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir"
+      ],
+      "generated_answer": "H\u00e9l\u00e8ne",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 19,
+      "question": "What is the main cause of deforestation in the Amazon?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Amazon_rainforest",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Amazon_rainforest",
+        "https://en.wikipedia.org/wiki/Amazon_rainforest",
+        "https://en.wikipedia.org/wiki/Amazon_rainforest"
+      ],
+      "generated_answer": "deglaciation",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 20,
+      "question": "What did the Council of 500 do to slow down the legislative process?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/French_Revolution",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/French_Revolution",
+        "https://en.wikipedia.org/wiki/French_Revolution",
+        "https://en.wikipedia.org/wiki/Airborne_transmission"
+      ],
+      "generated_answer": "relaxed price controls and rampant inflation",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 21,
+      "question": "What was the result of Rutherford's experiments with alpha radiation?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Marie_Curie",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Marie_Curie"
+      ],
+      "generated_answer": "he was able to make atomic bombs",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 22,
+      "question": "How many percent of Germans supported a wall?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+        "https://en.wikipedia.org/wiki/Germany",
+        "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall"
+      ],
+      "generated_answer": "98.2",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 23,
+      "question": "What was Plato's disciple Aristotle rather critical concerning?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Aristotle",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Socrates",
+        "https://en.wikipedia.org/wiki/Socrates",
+        "https://en.wikipedia.org/wiki/Aristotle"
+      ],
+      "generated_answer": "electoral procedures",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 24,
+      "question": "How many children were not in school and illiterate?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Nelson_Mandela",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ancient_Greece",
+        "https://en.wikipedia.org/wiki/Australia",
+        "https://en.wikipedia.org/wiki/Apartheid"
+      ],
+      "generated_answer": "0",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 25,
+      "question": "What is a derivative of a function called x?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Calculus",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus"
+      ],
+      "generated_answer": "distributions",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 26,
+      "question": "What is expected to be valid at the origin of cosmic time?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Big_Bang",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Big_Bang",
+        "https://en.wikipedia.org/wiki/Big_Bang",
+        "https://en.wikipedia.org/wiki/Big_Bang"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 27,
+      "question": "What is the basic reaction by which organisms use photosynthesis?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Photosynthesis",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
+        "https://en.wikipedia.org/wiki/Photosynthesis",
+        "https://en.wikipedia.org/wiki/Photosynthesis"
+      ],
+      "generated_answer": "photosynthesis",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 28,
+      "question": "When did the Soviet Union launch its first artificial satellite (Sputnik 1)?",
+      "question_type": "factual",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Global_Positioning_System",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Russia",
+        "https://en.wikipedia.org/wiki/Cold_War",
+        "https://en.wikipedia.org/wiki/Russia"
+      ],
+      "generated_answer": "After World War II",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 29,
+      "question": "In what year did Tim Berners-Lee receive the Queen Elizabeth Prize for Engineering?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+        "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+        "https://en.wikipedia.org/wiki/Tim_Berners-Lee"
+      ],
+      "generated_answer": "2013",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 30,
+      "question": "What is the national police responsible for?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Paris",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/United_States",
+        "https://en.wikipedia.org/wiki/London",
+        "https://en.wikipedia.org/wiki/Paris"
+      ],
+      "generated_answer": "immigration",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 31,
+      "question": "How many companies are listed on the DAX?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Germany",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Germany",
+        "https://en.wikipedia.org/wiki/Alan_Alda",
+        "https://en.wikipedia.org/wiki/Microsoft"
+      ],
+      "generated_answer": "0",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 32,
+      "question": "What is the name of Pauling's first book?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Linus_Pauling",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Linus_Pauling",
+        "https://en.wikipedia.org/wiki/Linus_Pauling",
+        "https://en.wikipedia.org/wiki/Russia"
+      ],
+      "generated_answer": "The Nature of the Chemical Bond",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 33,
+      "question": "What religion did Gandhi belong to?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mahatma_Gandhi",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mahatma_Gandhi",
+        "https://en.wikipedia.org/wiki/Mahatma_Gandhi",
+        "https://en.wikipedia.org/wiki/Electric_motor"
+      ],
+      "generated_answer": "Hindu",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 34,
+      "question": "What is the name of James Watson's memoir?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/James_Watson",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/James_Watson",
+        "https://en.wikipedia.org/wiki/Rosalind_Franklin",
+        "https://en.wikipedia.org/wiki/James_Watson"
+      ],
+      "generated_answer": "Human Genome Project",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 35,
+      "question": "What was the name of Jane Austen's first novel?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Jane_Austen",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Rosalind_Franklin",
+        "https://en.wikipedia.org/wiki/Jane_Austen",
+        "https://en.wikipedia.org/wiki/100%25_renewable_energy"
+      ],
+      "generated_answer": "The Silence of the Lambs",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 36,
+      "question": "What did the plebeian class live in?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ancient_Rome",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ancient_Rome",
+        "https://en.wikipedia.org/wiki/Ancient_Rome",
+        "https://en.wikipedia.org/wiki/100%25_renewable_energy"
+      ],
+      "generated_answer": "little more than a Greek state",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 37,
+      "question": "In what year did Jackson purchase land near Santa Ynez?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Michael_Jackson",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Michael_Jackson",
+        "https://en.wikipedia.org/wiki/Michael_Jackson",
+        "https://en.wikipedia.org/wiki/Michael_Jackson"
+      ],
+      "generated_answer": "",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 38,
+      "question": "What is the major source of nitrogen for ecosystems?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ecosystem",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ecosystem",
+        "https://en.wikipedia.org/wiki/Ecosystem",
+        "https://en.wikipedia.org/wiki/Ecosystem"
+      ],
+      "generated_answer": "nitrogen oxides",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 39,
+      "question": "What is the most popular sport in Brazil?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Brazil",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Brazil",
+        "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+        "https://en.wikipedia.org/wiki/Brazil"
+      ],
+      "generated_answer": "football",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 40,
+      "question": "Where is the Obudu Plateau located?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Nigeria",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/South_Africa",
+        "https://en.wikipedia.org/wiki/South_Africa",
+        "https://en.wikipedia.org/wiki/Nigeria"
+      ],
+      "generated_answer": "South Africa",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 41,
+      "question": "What is abstract algebra?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Algebra",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Algebra",
+        "https://en.wikipedia.org/wiki/Dalai_Lama",
+        "https://en.wikipedia.org/wiki/Dalai_Lama"
+      ],
+      "generated_answer": "algebraic geometry",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 42,
+      "question": "What year did smartphone sales begin to decline for the first time?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Smartphone",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Smartphone",
+        "https://en.wikipedia.org/wiki/Apple_Inc.",
+        "https://en.wikipedia.org/wiki/Smartphone"
+      ],
+      "generated_answer": "",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 43,
+      "question": "How many awards and honors did Barack Obama receive?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Barack_Obama",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Barack_Obama",
+        "https://en.wikipedia.org/wiki/Bill_Gates",
+        "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall"
+      ],
+      "generated_answer": "2",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 44,
+      "question": "What was a part of the Ottoman Book Arts?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ottoman_Empire",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ottoman_Empire",
+        "https://en.wikipedia.org/wiki/Ottoman_Empire",
+        "https://en.wikipedia.org/wiki/Ottoman_Empire"
+      ],
+      "generated_answer": "Ottoman Book Arts",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 45,
+      "question": "Which court ruled that the NAACP's intention was to show the Courts that African American children w",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Civil_rights_movement",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Civil_rights_movement",
+        "https://en.wikipedia.org/wiki/Civil_rights_movement",
+        "https://en.wikipedia.org/wiki/Civil_rights_movement"
+      ],
+      "generated_answer": "United States Supreme Court",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 46,
+      "question": "What did Annan argue that could have helped Dallaire defend the endangered Tutsis?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Kofi_Annan",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Kofi_Annan",
+        "https://en.wikipedia.org/wiki/Grand_Canyon",
+        "https://en.wikipedia.org/wiki/Kofi_Annan"
+      ],
+      "generated_answer": "the UN Human Rights Council",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 47,
+      "question": "How many electrons can fit in an f-block?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Periodic_table",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Periodic_table",
+        "https://en.wikipedia.org/wiki/Periodic_table",
+        "https://en.wikipedia.org/wiki/Periodic_table"
+      ],
+      "generated_answer": "8",
+      "details": "Generated answer too short"
+    },
+    {
+      "question_id": 48,
+      "question": "What did India use military force to integrate Junagadh, Hyderabad State and Kashmir to India?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Indian_independence_movement",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Indian_independence_movement",
+        "https://en.wikipedia.org/wiki/India",
+        "https://en.wikipedia.org/wiki/Machine_learning"
+      ],
+      "generated_answer": "British Indian Army",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 49,
+      "question": "What type of media is used to isolate bacteria?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Bacteria",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Bacteria",
+        "https://en.wikipedia.org/wiki/Virus",
+        "https://en.wikipedia.org/wiki/Bacteria"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Correct retrieval and reasonable answer"
+    }
+  ]
+}
