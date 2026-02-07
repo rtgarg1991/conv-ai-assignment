@@ -1,0 +1,763 @@
+{
+  "timestamp": "2026-02-07T20:34:30.604785",
+  "summary": {
+    "total_questions": 50,
+    "categories": {
+      "LOW_ANSWER_QUALITY": {
+        "count": 6,
+        "percentage": 12.0
+      },
+      "SUCCESS": {
+        "count": 35,
+        "percentage": 70.0
+      },
+      "RANK_DEGRADED": {
+        "count": 6,
+        "percentage": 12.0
+      },
+      "RETRIEVAL_MISS": {
+        "count": 3,
+        "percentage": 6.0
+      }
+    },
+    "success_rate": 70.0,
+    "retrieval_accuracy": 94.0
+  },
+  "errors_by_question_type": {
+    "factual": {
+      "error_count": 3,
+      "sample_errors": [
+        "In what year did Russia become a member of the Uni",
+        "When did the 2004 Indian Ocean earthquake occur?",
+        "When did Marley and Perry split after a dispute re"
+      ]
+    },
+    "comparative": {
+      "error_count": 5,
+      "sample_errors": [
+        "How many years after winning the Grand Prize did N",
+        "How many years after construction began did constr",
+        "What were the tramway rails removed from?"
+      ]
+    },
+    "inferential": {
+      "error_count": 1,
+      "sample_errors": [
+        "Why did Nicholas want to restore the prestige that"
+      ]
+    },
+    "multi_hop": {
+      "error_count": 6,
+      "sample_errors": [
+        "Who was erected in his memory on the north wall?",
+        "Who was the first to publish evidence that it was ",
+        "Who wrote five popular early picaresque novels?"
+      ]
+    }
+  },
+  "recommendations": [
+    "ANSWER QUALITY: Consider using larger LLM or improving prompt engineering"
+  ],
+  "detailed_results": [
+    {
+      "question_id": 0,
+      "question": "In what year did Russia become a member of the United Nations Security Council?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Russia",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Russia",
+        "https://en.wikipedia.org/wiki/Russia",
+        "https://en.wikipedia.org/wiki/Cold_War"
+      ],
+      "generated_answer": "",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 1,
+      "question": "How many years after winning the Grand Prize did Netflix change its recommendation engine?",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Machine_learning",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Machine_learning",
+        "https://en.wikipedia.org/wiki/Television",
+        "https://en.wikipedia.org/wiki/Artificial_intelligence"
+      ],
+      "generated_answer": "2",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 2,
+      "question": "Why did Pauli write the article?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli"
+      ],
+      "generated_answer": "to review the theory of relativity",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 3,
+      "question": "What is the difference between a diesel engine and a gasoline engine?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine"
+      ],
+      "generated_answer": "diesel engine",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 4,
+      "question": "Who argued that because of the gold standard, the Federal Reserve's hands were tied?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Milton_Friedman",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Milton_Friedman",
+        "https://en.wikipedia.org/wiki/Milton_Friedman",
+        "https://en.wikipedia.org/wiki/Milton_Friedman"
+      ],
+      "generated_answer": "John F. Kennedy",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 5,
+      "question": "What was Garca M\u00e1rquez's agent's name?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez",
+        "https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez",
+        "https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez"
+      ],
+      "generated_answer": "Gabriel Eligio Garca",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 6,
+      "question": "Dynamic web pages are used when each user may require completely different information, for example,",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/World_Wide_Web",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/World_Wide_Web",
+        "https://en.wikipedia.org/wiki/World_Wide_Web",
+        "https://en.wikipedia.org/wiki/World_Wide_Web"
+      ],
+      "generated_answer": "websites",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 7,
+      "question": "Who was the principal of Somerville College?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Dorothy_Hodgkin",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Dorothy_Hodgkin",
+        "https://en.wikipedia.org/wiki/Linus_Pauling",
+        "https://en.wikipedia.org/wiki/Rosalind_Franklin"
+      ],
+      "generated_answer": "Margery Fry",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 8,
+      "question": "What is a common case in Streptococcus pneumoniae?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Penicillin",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Penicillin",
+        "https://en.wikipedia.org/wiki/Bacteria",
+        "https://en.wikipedia.org/wiki/Antibiotic"
+      ],
+      "generated_answer": "PBP alterations",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 9,
+      "question": "Who sent Beethoven a heavy gold medallion?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven"
+      ],
+      "generated_answer": "Diabelli",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 10,
+      "question": "Why did Fitzgerald publish The Great Gatsby?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ernest_Hemingway",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ernest_Hemingway",
+        "https://en.wikipedia.org/wiki/Ernest_Hemingway",
+        "https://en.wikipedia.org/wiki/Jane_Austen"
+      ],
+      "generated_answer": "Hemingway liked it",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 11,
+      "question": "What is the name of Rembrandt's most famous painting?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Rembrandt",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Rembrandt",
+        "https://en.wikipedia.org/wiki/Rembrandt",
+        "https://en.wikipedia.org/wiki/Rembrandt"
+      ],
+      "generated_answer": "Belshazzar's Feast",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 12,
+      "question": "What is the earliest undisputed evidence of life on Earth?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Evolution",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Photosynthesis",
+        "https://en.wikipedia.org/wiki/Bacteria"
+      ],
+      "generated_answer": "3.5 billion years ago",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 13,
+      "question": "How many years after construction began did construction begin on the Trans-Amazonian highway?",
+      "question_type": "comparative",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Amazon_rainforest",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Technology",
+        "https://en.wikipedia.org/wiki/Amazon_rainforest",
+        "https://en.wikipedia.org/wiki/Cairo"
+      ],
+      "generated_answer": "1",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 14,
+      "question": "Why did Nicholas want to restore the prestige that Russia had lost?",
+      "question_type": "inferential",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Russian_Revolution",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Russia",
+        "https://en.wikipedia.org/wiki/Russian_Revolution",
+        "https://en.wikipedia.org/wiki/Russian_Revolution"
+      ],
+      "generated_answer": "to modernise the Imperial Russian Army",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 15,
+      "question": "Who wrote The Adventures of Tom Sawyer?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mark_Twain",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mark_Twain",
+        "https://en.wikipedia.org/wiki/Mark_Twain",
+        "https://en.wikipedia.org/wiki/Mark_Twain"
+      ],
+      "generated_answer": "Mark Twain",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 16,
+      "question": "When did Fermi give a lecture on nuclear energy?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Enrico_Fermi",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Enrico_Fermi",
+        "https://en.wikipedia.org/wiki/Enrico_Fermi",
+        "https://en.wikipedia.org/wiki/Enrico_Fermi"
+      ],
+      "generated_answer": "1956",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 17,
+      "question": "What is the difference between pyrosequencing and DNA sequencing?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/DNA_sequencing",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/DNA_sequencing",
+        "https://en.wikipedia.org/wiki/DNA_sequencing",
+        "https://en.wikipedia.org/wiki/DNA_sequencing"
+      ],
+      "generated_answer": "pyrosequencing is a method for determining the length of a DNA sequence.",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 18,
+      "question": "Why did Robert Koch change his area of study to medicine?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Robert_Koch",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Robert_Koch",
+        "https://en.wikipedia.org/wiki/Robert_Koch",
+        "https://en.wikipedia.org/wiki/Robert_Koch"
+      ],
+      "generated_answer": "he aspired to be a physician",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 19,
+      "question": "Who was erected in his memory on the north wall?",
+      "question_type": "multi_hop",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/William_Shakespeare",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall",
+        "https://en.wikipedia.org/wiki/Architecture_in_Middle-earth",
+        "https://en.wikipedia.org/wiki/Battle_of_Jaktor%C3%B3w"
+      ],
+      "generated_answer": "Wessis",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 20,
+      "question": "When did the 2004 Indian Ocean earthquake occur?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Indonesia",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Himalayas",
+        "https://en.wikipedia.org/wiki/Indonesia",
+        "https://en.wikipedia.org/wiki/Japan"
+      ],
+      "generated_answer": "[1].",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 21,
+      "question": "What were the tramway rails removed from?",
+      "question_type": "comparative",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Cairo",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Industrial_Revolution",
+        "https://en.wikipedia.org/wiki/Cairo",
+        "https://en.wikipedia.org/wiki/Paris"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 22,
+      "question": "The use of nuclear power in space is mostly used to power space missions and experiments for long pe",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Nuclear_power",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Nuclear_power",
+        "https://en.wikipedia.org/wiki/Nuclear_power",
+        "https://en.wikipedia.org/wiki/Nuclear_power"
+      ],
+      "generated_answer": "(4).",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 23,
+      "question": "Who was the first to publish evidence that it was effective?",
+      "question_type": "multi_hop",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Vaccination",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Scientific_Revolution",
+        "https://en.wikipedia.org/wiki/Electric_motor"
+      ],
+      "generated_answer": "Thomas Henry Huxley",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 24,
+      "question": "In what year was a digital television service proposed?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Television",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Television",
+        "https://en.wikipedia.org/wiki/Television",
+        "https://en.wikipedia.org/wiki/Television"
+      ],
+      "generated_answer": "1986",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 25,
+      "question": "What is the basic shape of a typic bicycle?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Bicycle",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Bicycle",
+        "https://en.wikipedia.org/wiki/Bicycle",
+        "https://en.wikipedia.org/wiki/Bicycle"
+      ],
+      "generated_answer": "upright",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 26,
+      "question": "Electric motors have two mechanical parts: the rotor, which moves, and the stator, which does not. W",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Electric_motor",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Electric_motor",
+        "https://en.wikipedia.org/wiki/Electric_motor",
+        "https://en.wikipedia.org/wiki/Electric_motor"
+      ],
+      "generated_answer": "The magnets create a magnetic field",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 27,
+      "question": "Who wrote five popular early picaresque novels?",
+      "question_type": "multi_hop",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/France",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Charles_Dickens",
+        "https://en.wikipedia.org/wiki/France",
+        "https://en.wikipedia.org/wiki/V._S._Naipaul"
+      ],
+      "generated_answer": "Laurence Sterne",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 28,
+      "question": "When did Marley and Perry split after a dispute regarding the assignment of recording rights?",
+      "question_type": "factual",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Bob_Marley",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Bob_Marley",
+        "https://en.wikipedia.org/wiki/Bob_Marley",
+        "https://en.wikipedia.org/wiki/Bob_Marley"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 29,
+      "question": "What did the University of Paris offer Pierre Curie?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Marie_Curie",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Marie_Curie",
+        "https://en.wikipedia.org/wiki/Marie_Curie",
+        "https://en.wikipedia.org/wiki/Marie_Curie"
+      ],
+      "generated_answer": "a position",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 30,
+      "question": "Why are antibiotics in Phase 3 clinical trials?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Antibiotic",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Antibiotic",
+        "https://en.wikipedia.org/wiki/Antibiotic",
+        "https://en.wikipedia.org/wiki/Antibiotic"
+      ],
+      "generated_answer": "they have been shown to be effective",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 31,
+      "question": "In what year was Hawking awarded the Julius Edgar Lilienfeld Prize?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Stephen_Hawking",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Stephen_Hawking",
+        "https://en.wikipedia.org/wiki/Stephen_Hawking",
+        "https://en.wikipedia.org/wiki/Stephen_Hawking"
+      ],
+      "generated_answer": "1976",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 32,
+      "question": "In what year did Australia rank 22nd in the Global Innovation Index?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Australia",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Australia",
+        "https://en.wikipedia.org/wiki/Australia",
+        "https://en.wikipedia.org/wiki/Sydney"
+      ],
+      "generated_answer": "2025",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 33,
+      "question": "What was Ostrom's major recreational activity?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Elinor_Ostrom",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Elinor_Ostrom",
+        "https://en.wikipedia.org/wiki/Elinor_Ostrom",
+        "https://en.wikipedia.org/wiki/Elinor_Ostrom"
+      ],
+      "generated_answer": "swimming",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 34,
+      "question": "How did Boltzmann define entropy?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Entropy",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Entropy",
+        "https://en.wikipedia.org/wiki/Entropy",
+        "https://en.wikipedia.org/wiki/Entropy"
+      ],
+      "generated_answer": "He defined entropy as a state of being in a state of being in a state of being.",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 35,
+      "question": "Who led the rebellion against the Ganden Phodrang Government?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Dalai_Lama",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Dalai_Lama",
+        "https://en.wikipedia.org/wiki/Dalai_Lama",
+        "https://en.wikipedia.org/wiki/Indian_independence_movement"
+      ],
+      "generated_answer": "Shetra",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 36,
+      "question": "Where did Tu study patients who had been infected with the disease?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Tu_Youyou",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Tu_Youyou",
+        "https://en.wikipedia.org/wiki/Tu_Youyou",
+        "https://en.wikipedia.org/wiki/Detention_of_Roger_George_Youd"
+      ],
+      "generated_answer": "Hainan",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 37,
+      "question": "What asteroid discovered in 1983 was named after Dirac?",
+      "question_type": "comparative",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Paul_Dirac",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Precovery",
+        "https://en.wikipedia.org/wiki/Paul_Dirac",
+        "https://en.wikipedia.org/wiki/Paul_Dirac"
+      ],
+      "generated_answer": "69230 Hermes",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 38,
+      "question": "The use of bioenergy in conjunction with carbon capture and storage (BECCS) can result in net negati",
+      "question_type": "multi_hop",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Climate_change",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Climate_change",
+        "https://en.wikipedia.org/wiki/Climate_change",
+        "https://en.wikipedia.org/wiki/Climate_change"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 39,
+      "question": "What is a human fingernail?",
+      "question_type": "multi_hop",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Integrated_circuit",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Interdigitation",
+        "https://en.wikipedia.org/wiki/American_anthropology",
+        "https://en.wikipedia.org/wiki/Anthropopoiesis"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 40,
+      "question": "When did Kafka begin writing Das Schloss?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Franz_Kafka",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Franz_Kafka",
+        "https://en.wikipedia.org/wiki/Franz_Kafka",
+        "https://en.wikipedia.org/wiki/Franz_Kafka"
+      ],
+      "generated_answer": "1930",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 41,
+      "question": "What is the difference between thin film and crystalline silicon?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Solar_cell",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Solar_cell",
+        "https://en.wikipedia.org/wiki/Solar_cell",
+        "https://en.wikipedia.org/wiki/Solar_cell"
+      ],
+      "generated_answer": "amorphous silicon",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 42,
+      "question": "Mexico has fully recognized same-sex marriage since what year?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mexico",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mexico",
+        "https://en.wikipedia.org/wiki/Barack_Obama",
+        "https://en.wikipedia.org/wiki/Singapore"
+      ],
+      "generated_answer": "2022",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 43,
+      "question": "What was the name of the institute that Heisenberg was the sole director of?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Werner_Heisenberg",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Werner_Heisenberg",
+        "https://en.wikipedia.org/wiki/Werner_Heisenberg",
+        "https://en.wikipedia.org/wiki/Werner_Heisenberg"
+      ],
+      "generated_answer": "Leipzig",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 44,
+      "question": "Who was the third head of the Stoic school?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Stoicism",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Stoicism",
+        "https://en.wikipedia.org/wiki/Stoicism",
+        "https://en.wikipedia.org/wiki/Stoicism"
+      ],
+      "generated_answer": "Chrysippus",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 45,
+      "question": "How many years did it take for Singapore's tennis team to become world champions?",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Singapore",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Singapore",
+        "https://en.wikipedia.org/wiki/Singapore",
+        "https://en.wikipedia.org/wiki/Paris"
+      ],
+      "generated_answer": "1",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 46,
+      "question": "Calculus can be used to calculate how quickly a drug is eliminated from a body or how quickly a canc",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Calculus",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus"
+      ],
+      "generated_answer": "in the realm of medicine",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 47,
+      "question": "How many years after The First Weighing of Plutonium did Glenn T. Seaborg publish The First Weighing",
+      "question_type": "multi_hop",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
+        "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
+        "https://en.wikipedia.org/wiki/Glenn_T._Seaborg"
+      ],
+      "generated_answer": "1",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 48,
+      "question": "What did Antigonus attempt to expand his territory by attacking the other successor kingdoms?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ancient_Greece",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ancient_Greece",
+        "https://en.wikipedia.org/wiki/Ancient_Egypt",
+        "https://en.wikipedia.org/wiki/Ancient_Greece"
+      ],
+      "generated_answer": "Hellenistic kingdoms",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 49,
+      "question": "How did Daniel Kottke feel about Steve Jobs?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Steve_Jobs",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Steve_Jobs",
+        "https://en.wikipedia.org/wiki/Steve_Jobs",
+        "https://en.wikipedia.org/wiki/Steve_Jobs"
+      ],
+      "generated_answer": "he rarely created trouble for me",
+      "details": "Correct retrieval and reasonable answer"
+    }
+  ]
+}

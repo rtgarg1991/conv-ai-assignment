@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-02-07T20:34:07.012724",
+  "num_questions": 50,
+  "methods": {
+    "dense_only": {
+      "mrr": 0.8617,
+      "questions_evaluated": 50
+    },
+    "sparse_only": {
+      "mrr": 1.0,
+      "questions_evaluated": 50
+    },
+    "hybrid_balanced": {
+      "mrr": 0.88,
+      "questions_evaluated": 50
+    },
+    "hybrid_dense_heavy": {
+      "mrr": 0.88,
+      "questions_evaluated": 50
+    },
+    "hybrid_sparse_heavy": {
+      "mrr": 0.885,
+      "questions_evaluated": 50
+    },
+    "hybrid_k60": {
+      "mrr": 0.88,
+      "questions_evaluated": 50
+    }
+  },
+  "analysis": {
+    "best_method": "sparse_only",
+    "best_mrr": 1.0,
+    "worst_method": "dense_only",
+    "worst_mrr": 0.8617,
+    "dense_vs_sparse": "sparse",
+    "best_hybrid_config": "hybrid_sparse_heavy",
+    "hybrid_improvement_pct": -11.5,
+    "recommendation": "Use sparse_only for optimal performance"
+  }
+}
