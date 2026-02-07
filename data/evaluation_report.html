@@ -98,32 +98,32 @@
 <body>
     <div class="container">
         <h1>🔍 Hybrid RAG System - Evaluation Report</h1>
-        <p class="subtitle">Generated: 2026-02-07 18:35:10</p>
+        <p class="subtitle">Generated: 2026-02-07 19:17:07</p>
         
         
         <h2>📊 Performance Summary</h2>
         <div class="metric-grid">
             <div class="metric-card">
-                <div class="metric-value">67.00%</div>
+                <div class="metric-value">78.87%</div>
                 <div class="metric-label">MRR (Retrieval)</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">7.12%</div>
+                <div class="metric-value">23.19%</div>
                 <div class="metric-label">ROUGE-L (Generation)</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">62.82%</div>
+                <div class="metric-value">71.78%</div>
                 <div class="metric-label">BERTScore (Semantic)</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value">0.22s</div>
+                <div class="metric-value">0.24s</div>
                 <div class="metric-label">Avg Latency</div>
             </div>
         </div>
         <div class="card">
             <p><strong>Questions Evaluated:</strong> 100</p>
             <p><strong>Failed:</strong> 0</p>
-            <p><strong>Total Processing Time:</strong> 22.1s</p>
+            <p><strong>Total Processing Time:</strong> 23.6s</p>
         </div>
         
         
@@ -195,32 +195,32 @@
                     
             <tr>
                 <td>sparse_only</td>
-                <td><span class="badge badge-success">0.7190</span></td>
+                <td><span class="badge badge-success">0.8683</span></td>
             </tr>
             
             <tr>
                 <td>hybrid_sparse_heavy</td>
-                <td><span class="badge badge-warning">0.6690</span></td>
+                <td><span class="badge badge-success">0.8300</span></td>
             </tr>
             
             <tr>
                 <td>hybrid_balanced</td>
-                <td><span class="badge badge-warning">0.6640</span></td>
+                <td><span class="badge badge-success">0.8273</span></td>
             </tr>
             
             <tr>
                 <td>hybrid_k60</td>
-                <td><span class="badge badge-warning">0.6640</span></td>
+                <td><span class="badge badge-success">0.8273</span></td>
             </tr>
             
             <tr>
                 <td>hybrid_dense_heavy</td>
-                <td><span class="badge badge-warning">0.6583</span></td>
+                <td><span class="badge badge-success">0.8207</span></td>
             </tr>
             
             <tr>
                 <td>dense_only</td>
-                <td><span class="badge badge-warning">0.6407</span></td>
+                <td><span class="badge badge-success">0.8133</span></td>
             </tr>
             
                 </tbody>
@@ -231,16 +231,16 @@
         </div>
         <div class="card">
             <h3>Analysis</h3>
-            <p><strong>Best Method:</strong> sparse_only (MRR: 0.7190)</p>
-            <p><strong>Hybrid vs Single Method Improvement:</strong> -7.0%</p>
+            <p><strong>Best Method:</strong> sparse_only (MRR: 0.8683)</p>
+            <p><strong>Hybrid vs Single Method Improvement:</strong> -4.4%</p>
             <p><strong>Recommendation:</strong> Use sparse_only for optimal performance</p>
         </div>
         
         
         <h2>🔍 Error Analysis</h2>
         <div class="card">
-            <p><strong>Success Rate:</strong> <span class="success">42.0%</span></p>
-            <p><strong>Retrieval Accuracy:</strong> 84.0%</p>
+            <p><strong>Success Rate:</strong> <span class="success">66.0%</span></p>
+            <p><strong>Retrieval Accuracy:</strong> 96.0%</p>
             <table>
                 <thead>
                     <tr><th>Category</th><th>Count</th><th>Percentage</th></tr>
@@ -248,27 +248,27 @@
                 <tbody>
                     
             <tr>
-                <td>SUCCESS</td>
-                <td>21</td>
-                <td><span class="success">42.0%</span></td>
+                <td>LOW_ANSWER_QUALITY</td>
+                <td>5</td>
+                <td><span class="warning">10.0%</span></td>
             </tr>
             
             <tr>
                 <td>RANK_DEGRADED</td>
-                <td>17</td>
-                <td><span class="danger">34.0%</span></td>
+                <td>10</td>
+                <td><span class="danger">20.0%</span></td>
+            </tr>
+            
+            <tr>
+                <td>SUCCESS</td>
+                <td>33</td>
+                <td><span class="success">66.0%</span></td>
             </tr>
             
             <tr>
                 <td>RETRIEVAL_MISS</td>
-                <td>8</td>
-                <td><span class="warning">16.0%</span></td>
-            </tr>
-            
-            <tr>
-                <td>LOW_ANSWER_QUALITY</td>
-                <td>4</td>
-                <td><span class="warning">8.0%</span></td>
+                <td>2</td>
+                <td><span class="warning">4.0%</span></td>
             </tr>
             
                 </tbody>
@@ -279,7 +279,7 @@
         </div>
         <div class="card">
             <h3>Recommendations</h3>
-            <ul><li>RANK DEGRADATION: RRF weights may need tuning, or consider re-ranking model</li></ul>
+            <ul><li>System performing well. Consider edge case testing.</li></ul>
         </div>
         
         
@@ -290,7 +290,7 @@
                     <tr><th>Question Type</th><th>Count</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>comparative</td><td>26</td></tr><tr><td>factual</td><td>25</td></tr><tr><td>inferential</td><td>25</td></tr><tr><td>multi_hop</td><td>24</td></tr>
+                    <tr><td>comparative</td><td>29</td></tr><tr><td>factual</td><td>24</td></tr><tr><td>multi_hop</td><td>24</td></tr><tr><td>inferential</td><td>23</td></tr>
                 </tbody>
             </table>
             <div class="chart-container">
@@ -320,7 +320,7 @@
                     labels: ["dense_only", "sparse_only", "hybrid_balanced", "hybrid_dense_heavy", "hybrid_sparse_heavy", "hybrid_k60"],
                     datasets: [{
                         label: 'MRR Score',
-                        data: [0.6407, 0.719, 0.664, 0.6583, 0.669, 0.664],
+                        data: [0.8133, 0.8683, 0.8273, 0.8207, 0.83, 0.8273],
                         backgroundColor: ['#4361ee', '#3f37c9', '#7209b7', '#f72585', '#4cc9f0']
                     }]
                 },
@@ -335,9 +335,9 @@
             new Chart(document.getElementById('errorChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: ["SUCCESS", "RANK_DEGRADED", "RETRIEVAL_MISS", "LOW_ANSWER_QUALITY"],
+                    labels: ["LOW_ANSWER_QUALITY", "RANK_DEGRADED", "SUCCESS", "RETRIEVAL_MISS"],
                     datasets: [{
-                        data: [21, 17, 8, 4],
+                        data: [5, 10, 33, 2],
                         backgroundColor: ['#2ec4b6', '#ff9f1c', '#e63946', '#4361ee']
                     }]
                 },

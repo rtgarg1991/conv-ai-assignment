@@ -1,657 +1,96 @@
 {
-  "timestamp": "2026-02-07T18:35:09.468440",
+  "timestamp": "2026-02-07T19:17:06.501213",
   "summary": {
     "total_questions": 50,
     "categories": {
-      "SUCCESS": {
-        "count": 21,
-        "percentage": 42.0
+      "LOW_ANSWER_QUALITY": {
+        "count": 5,
+        "percentage": 10.0
       },
       "RANK_DEGRADED": {
-        "count": 17,
-        "percentage": 34.0
+        "count": 10,
+        "percentage": 20.0
+      },
+      "SUCCESS": {
+        "count": 33,
+        "percentage": 66.0
       },
       "RETRIEVAL_MISS": {
-        "count": 8,
-        "percentage": 16.0
-      },
-      "LOW_ANSWER_QUALITY": {
-        "count": 4,
-        "percentage": 8.0
+        "count": 2,
+        "percentage": 4.0
       }
     },
-    "success_rate": 42.0,
-    "retrieval_accuracy": 84.0
+    "success_rate": 66.0,
+    "retrieval_accuracy": 96.0
   },
   "errors_by_question_type": {
-    "comparative": {
-      "error_count": 9,
+    "factual": {
+      "error_count": 3,
       "sample_errors": [
-        "What is the name of the book that Ostrom, Elinor, ",
-        "What year did Dorothy Hodgkin first encounter vita",
-        "What was Confucius's philosophy?"
+        "What did the FBI find at the crash sites?",
+        "What is the archetypal example of the experience o",
+        "What is a national dish in Japan?"
       ]
     },
-    "inferential": {
+    "comparative": {
       "error_count": 8,
       "sample_errors": [
-        "The square of the speed of light appears explicitl",
-        "Why is artemisinin special among artemisinin-based",
-        "Why did the British abolish slavery?"
+        "Which country has a high GDP per capita?",
+        "How many years after Johann Balmer came up with hi",
+        "How many years did the Empire lose its North Afric"
       ]
     },
     "multi_hop": {
-      "error_count": 6,
+      "error_count": 2,
       "sample_errors": [
-        "What is the name of Kazuo Ishiguro's parents?",
-        "What was the name of the composer's nephew?",
-        "In what year was Nova Scotia finally achieved?"
+        "What is the name of the Congo during artisanal min",
+        "Who was Cecil Rhodes's brother?"
       ]
     },
-    "factual": {
-      "error_count": 6,
+    "inferential": {
+      "error_count": 4,
       "sample_errors": [
-        "Who was vilified by the right-wing press as a fore",
-        "When did Gorbachev publicly defend Volodya Liberma",
-        "In what year did Einstein's theory come into being"
+        "Why were jet aircraft used in World War II?",
+        "What is the full name of the person who was killed",
+        "What is the name of Dal's major works?"
       ]
     }
   },
   "recommendations": [
-    "RANK DEGRADATION: RRF weights may need tuning, or consider re-ranking model"
+    "System performing well. Consider edge case testing."
   ],
   "detailed_results": [
     {
       "question_id": 0,
-      "question": "Who was the last Yuan ruler to rule the Mongol Empire?",
+      "question": "What did the FBI find at the crash sites?",
       "question_type": "factual",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Mongol_Empire",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Mongol_Empire",
-        "https://en.wikipedia.org/wiki/Mongol_Empire",
-        "https://en.wikipedia.org/wiki/Mark_Zuckerberg"
-      ],
-      "generated_answer": "Kublai Khan",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 1,
-      "question": "What is the name of the book that Ostrom, Elinor, and Lam, Wai Fung published?",
-      "question_type": "comparative",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Elinor_Ostrom",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Accident",
-        "https://en.wikipedia.org/wiki/Elinor_Ostrom",
-        "https://en.wikipedia.org/wiki/Elinor_Ostrom"
-      ],
-      "generated_answer": "The Book of Revelation",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 2,
-      "question": "Why did Pasteur use impure cultures?",
-      "question_type": "inferential",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Louis_Pasteur",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Louis_Pasteur",
-        "https://en.wikipedia.org/wiki/Louis_Pasteur",
-        "https://en.wikipedia.org/wiki/Louis_Pasteur"
-      ],
-      "generated_answer": "to inactivate anthrax",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 3,
-      "question": "What is the name of Bill Gates's wife?",
-      "question_type": "multi_hop",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Bill_Gates",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Bill_Gates",
-        "https://en.wikipedia.org/wiki/Stephen_Hawking",
-        "https://en.wikipedia.org/wiki/Bill_Gates"
-      ],
-      "generated_answer": "Melinda",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 4,
-      "question": "What was the target of the attacks?",
-      "question_type": "factual",
-      "category": "SUCCESS",
+      "category": "LOW_ANSWER_QUALITY",
       "ground_truth_url": "https://en.wikipedia.org/wiki/September_11_attacks",
       "retrieved_urls": [
         "https://en.wikipedia.org/wiki/September_11_attacks",
-        "https://en.wikipedia.org/wiki/Age_of_Enlightenment",
+        "https://en.wikipedia.org/wiki/September_11_attacks",
         "https://en.wikipedia.org/wiki/September_11_attacks"
       ],
-      "generated_answer": "airplanes",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 5,
-      "question": "What is the name of the book that was edited by Simone de Beauvoir?",
-      "question_type": "comparative",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
-        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
-        "https://en.wikipedia.org/wiki/Simone_de_Beauvoir"
-      ],
-      "generated_answer": "The Blood of Others",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 6,
-      "question": "The square of the speed of light appears explicitly in some of the equations interrelating quantitie",
-      "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Electromagnetism",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Rembrandt",
-        "https://en.wikipedia.org/wiki/Electromagnetism",
-        "https://en.wikipedia.org/wiki/Electromagnetism"
-      ],
-      "generated_answer": "unanswerable",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 7,
-      "question": "What is the name of Kazuo Ishiguro's parents?",
-      "question_type": "multi_hop",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Kazuo_Ishiguro",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Frida_Kahlo",
-        "https://en.wikipedia.org/wiki/Indian_independence_movement",
-        "https://en.wikipedia.org/wiki/Indian_independence_movement"
-      ],
-      "generated_answer": "Ferdinand Fernandez",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 8,
-      "question": "Who was vilified by the right-wing press as a foreigner?",
-      "question_type": "factual",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Marie_Curie",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Adaptive_radiation",
-        "https://en.wikipedia.org/wiki/ASCII",
-        "https://en.wikipedia.org/wiki/Desmond_Tutu"
-      ],
-      "generated_answer": "Polynesian",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 9,
-      "question": "What year did Dorothy Hodgkin first encounter vitamin B12?",
-      "question_type": "comparative",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Dorothy_Hodgkin",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Radio",
-        "https://en.wikipedia.org/wiki/Radio",
-        "https://en.wikipedia.org/wiki/Dorothy_Hodgkin"
-      ],
-      "generated_answer": "1903",
-      "details": "Ground truth found at rank 3, not #1"
-    },
-    {
-      "question_id": 10,
-      "question": "Why is artemisinin special among artemisinin-based drugs?",
-      "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Tu_Youyou",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Bob_Marley",
-        "https://en.wikipedia.org/wiki/Bob_Marley",
-        "https://en.wikipedia.org/wiki/Tu_Youyou"
-      ],
-      "generated_answer": "an underwater spider species named in honour of Marley Fabian Marley",
-      "details": "Ground truth found at rank 3, not #1"
-    },
-    {
-      "question_id": 11,
-      "question": "What was the name of the composer's nephew?",
-      "question_type": "multi_hop",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/United_Kingdom",
-        "https://en.wikipedia.org/wiki/Grace_Hopper",
-        "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes"
-      ],
-      "generated_answer": "William Grant",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 12,
-      "question": "When did Gorbachev publicly defend Volodya Liberman?",
-      "question_type": "factual",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Existentialism",
-        "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
-        "https://en.wikipedia.org/wiki/Mikhail_Gorbachev"
-      ],
-      "generated_answer": "1 January 1991",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 13,
-      "question": "What was Confucius's philosophy?",
-      "question_type": "comparative",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Confucius",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Car",
-        "https://en.wikipedia.org/wiki/Car",
-        "https://en.wikipedia.org/wiki/Confucius"
-      ],
-      "generated_answer": "unanswerable",
-      "details": "Ground truth found at rank 3, not #1"
-    },
-    {
-      "question_id": 14,
-      "question": "Why did the British abolish slavery?",
-      "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Abolitionism",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-        "https://en.wikipedia.org/wiki/Abolitionism",
-        "https://en.wikipedia.org/wiki/Abolitionism"
-      ],
-      "generated_answer": "the death of Bach and Handel",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 15,
-      "question": "What is South Africa's most valuable mineral resource?",
-      "question_type": "multi_hop",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/South_Africa",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/South_Africa",
-        "https://en.wikipedia.org/wiki/South_Africa",
-        "https://en.wikipedia.org/wiki/South_Africa"
-      ],
-      "generated_answer": "gold",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 16,
-      "question": "What is the name of the supermassive black hole?",
-      "question_type": "factual",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Black_hole",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Black_hole",
-        "https://en.wikipedia.org/wiki/Black_hole",
-        "https://en.wikipedia.org/wiki/Black_hole"
-      ],
-      "generated_answer": "the Milky Way",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 17,
-      "question": "How many years after Gosling was briefly shown to Watson by Wilkins did Perutz give the report to Cr",
-      "question_type": "comparative",
-      "category": "LOW_ANSWER_QUALITY",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Rosalind_Franklin",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Rosalind_Franklin",
-        "https://en.wikipedia.org/wiki/Rosalind_Franklin",
-        "https://en.wikipedia.org/wiki/Rosalind_Franklin"
-      ],
-      "generated_answer": "1",
-      "details": "Generated answer empty or unanswerable"
-    },
-    {
-      "question_id": 18,
-      "question": "What was the goal of the Kyoto Protocol?",
-      "question_type": "inferential",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Climate_change",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Climate_change",
-        "https://en.wikipedia.org/wiki/Climate_change",
-        "https://en.wikipedia.org/wiki/Japan"
-      ],
-      "generated_answer": "reducing CO2 emissions",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 19,
-      "question": "In what year was Nova Scotia finally achieved?",
-      "question_type": "multi_hop",
-      "category": "LOW_ANSWER_QUALITY",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/British_Empire",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/British_Empire",
-        "https://en.wikipedia.org/wiki/British_Empire",
-        "https://en.wikipedia.org/wiki/British_Empire"
-      ],
-      "generated_answer": "",
-      "details": "Generated answer empty or unanswerable"
-    },
-    {
-      "question_id": 20,
-      "question": "What did Tim Berners-Lee want the world to be?",
-      "question_type": "factual",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
-        "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
-        "https://en.wikipedia.org/wiki/Tim_Berners-Lee"
-      ],
-      "generated_answer": "web browser",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 21,
-      "question": "How many cities had populations over 100,000 in 2022?",
-      "question_type": "comparative",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/United_States",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Abdus_Salam",
-        "https://en.wikipedia.org/wiki/New_York_City",
-        "https://en.wikipedia.org/wiki/Mexico"
-      ],
-      "generated_answer": "2",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 22,
-      "question": "Why did he study light from the summit of Monte Rosa?",
-      "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Scientific_Revolution",
-        "https://en.wikipedia.org/wiki/Leonardo_da_Vinci",
-        "https://en.wikipedia.org/wiki/Agnosticism"
-      ],
-      "generated_answer": "to discredit the Aristotelian philosophy",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 23,
-      "question": "Who was Locke secretary to?",
-      "question_type": "multi_hop",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/John_Locke",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/John_Locke",
-        "https://en.wikipedia.org/wiki/John_Locke",
-        "https://en.wikipedia.org/wiki/Integrated_circuit"
-      ],
-      "generated_answer": "Henry VIII",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 24,
-      "question": "What is an example of Integrated conservation and development projects?",
-      "question_type": "factual",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Ecosystem",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Ecosystem",
-        "https://en.wikipedia.org/wiki/Angular_momentum",
-        "https://en.wikipedia.org/wiki/Angular_momentum"
-      ],
-      "generated_answer": "a forest fire",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 25,
-      "question": "What did Avalokitevara promise the Buddha to do?",
-      "question_type": "comparative",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Dalai_Lama",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/The_Buddha",
-        "https://en.wikipedia.org/wiki/The_Buddha",
-        "https://en.wikipedia.org/wiki/Dalai_Lama"
-      ],
-      "generated_answer": "attain nirvana",
-      "details": "Ground truth found at rank 3, not #1"
-    },
-    {
-      "question_id": 26,
-      "question": "The Himalayas are also considered to be the father of the goddess Ganga (the personification of rive",
-      "question_type": "inferential",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Himalayas",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Himalayas",
-        "https://en.wikipedia.org/wiki/Himalayas",
-        "https://en.wikipedia.org/wiki/Scientific_Revolution"
-      ],
-      "generated_answer": "The Himalayan region is dotted with hundreds of lakes",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 27,
-      "question": "What was the first working silicon transistor developed at Bell Labs?",
-      "question_type": "multi_hop",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Transistor",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Refrigerator",
-        "https://en.wikipedia.org/wiki/Refrigerator",
-        "https://en.wikipedia.org/wiki/Refrigerator"
-      ],
-      "generated_answer": "transistor",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 28,
-      "question": "In what year did Einstein's theory come into being?",
-      "question_type": "factual",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Albert_Einstein",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Rembrandt",
-        "https://en.wikipedia.org/wiki/Albert_Einstein",
-        "https://en.wikipedia.org/wiki/Albert_Einstein"
-      ],
-      "generated_answer": "1924",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 29,
-      "question": "What did the style spread to Hindu courts?",
-      "question_type": "comparative",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/India",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Gene",
-        "https://en.wikipedia.org/wiki/India",
-        "https://en.wikipedia.org/wiki/India"
-      ],
-      "generated_answer": "Mendelian principle of independent assortment",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 30,
-      "question": "Why did King write about the differences that struck him?",
-      "question_type": "comparative",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
-        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
-        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr."
-      ],
-      "generated_answer": "(II).",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 31,
-      "question": "What did Ancient Greek philosophy focus on?",
-      "question_type": "multi_hop",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Ancient_Greece",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Ancient_Greece",
-        "https://en.wikipedia.org/wiki/Ancient_Greece",
-        "https://en.wikipedia.org/wiki/Algebra"
-      ],
-      "generated_answer": "manufacture and sale of goods",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 32,
-      "question": "What is France's second largest exporter of agricultural products?",
-      "question_type": "factual",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/France",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/France",
-        "https://en.wikipedia.org/wiki/France",
-        "https://en.wikipedia.org/wiki/South_Africa"
-      ],
-      "generated_answer": "Forests",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 33,
-      "question": "What were the first permanent year-round European settlements in Canada?",
-      "question_type": "comparative",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Canada",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Canada",
-        "https://en.wikipedia.org/wiki/Canada",
-        "https://en.wikipedia.org/wiki/Canada"
-      ],
-      "generated_answer": "the Atlantic coast",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 34,
-      "question": "How many children are there on the official Bob Marley website?",
-      "question_type": "inferential",
-      "category": "LOW_ANSWER_QUALITY",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Bob_Marley",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Bob_Marley",
-        "https://en.wikipedia.org/wiki/Bob_Marley",
-        "https://en.wikipedia.org/wiki/Bob_Marley"
-      ],
-      "generated_answer": "2",
-      "details": "Generated answer empty or unanswerable"
-    },
-    {
-      "question_id": 35,
-      "question": "What award did Tolstoy never receive?",
-      "question_type": "multi_hop",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Leo_Tolstoy",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Daniel_Kahneman",
-        "https://en.wikipedia.org/wiki/Daniel_Kahneman",
-        "https://en.wikipedia.org/wiki/Leo_Tolstoy"
-      ],
-      "generated_answer": "unanswerable",
-      "details": "Ground truth found at rank 3, not #1"
-    },
-    {
-      "question_id": 36,
-      "question": "In what year was the first official census of Germans?",
-      "question_type": "factual",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Germany",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Claude_Monet",
-        "https://en.wikipedia.org/wiki/Ottoman_Empire",
-        "https://en.wikipedia.org/wiki/Anatomy"
-      ],
-      "generated_answer": "",
-      "details": "Ground truth URL not in top-K retrieved"
-    },
-    {
-      "question_id": 37,
-      "question": "What was Van Gogh's style?",
-      "question_type": "comparative",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Vincent_van_Gogh",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Vincent_van_Gogh",
-        "https://en.wikipedia.org/wiki/Vincent_van_Gogh",
-        "https://en.wikipedia.org/wiki/Vincent_van_Gogh"
-      ],
-      "generated_answer": "painter",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 38,
-      "question": "Wozniak reduced the TTL count to 45, far below the usual 100?",
-      "question_type": "inferential",
-      "category": "LOW_ANSWER_QUALITY",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Steve_Jobs",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Steve_Jobs",
-        "https://en.wikipedia.org/wiki/Silk_Road",
-        "https://en.wikipedia.org/wiki/Moon_landing"
-      ],
       "generated_answer": "unanswerable",
       "details": "Generated answer empty or unanswerable"
     },
     {
-      "question_id": 39,
-      "question": "How many years passed between the Russian Revolution and the German Revolution?",
+      "question_id": 1,
+      "question": "Which country has a high GDP per capita?",
       "question_type": "comparative",
       "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Russian_Revolution",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Singapore",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/September_11_attacks",
-        "https://en.wikipedia.org/wiki/Russian_Revolution",
-        "https://en.wikipedia.org/wiki/Russia"
+        "https://en.wikipedia.org/wiki/United_States",
+        "https://en.wikipedia.org/wiki/Australia",
+        "https://en.wikipedia.org/wiki/Germany"
       ],
-      "generated_answer": "1",
-      "details": "Ground truth found at rank 2, not #1"
+      "generated_answer": "U.S.",
+      "details": "Ground truth found at rank 5, not #1"
     },
     {
-      "question_id": 40,
-      "question": "What is the name of Aung San Suu Kyi's wife?",
-      "question_type": "factual",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Aung_San_Suu_Kyi",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Frances_Arnold",
-        "https://en.wikipedia.org/wiki/Aung_San_Suu_Kyi",
-        "https://en.wikipedia.org/wiki/Aung_San_Suu_Kyi"
-      ],
-      "generated_answer": "Aung San Suu Kyi",
-      "details": "Ground truth found at rank 2, not #1"
-    },
-    {
-      "question_id": 41,
-      "question": "What was Mozart's \"chamber composer\" position?",
-      "question_type": "comparative",
-      "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-      "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
-        "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes"
-      ],
-      "generated_answer": "composer",
-      "details": "Correct retrieval and reasonable answer"
-    },
-    {
-      "question_id": 42,
-      "question": "Why was Annan given a copy of the OIOS report?",
+      "question_id": 2,
+      "question": "The Kofi Annan Foundation was founded on the principles that fair and peaceful societies rest on thr",
       "question_type": "inferential",
       "category": "SUCCESS",
       "ground_truth_url": "https://en.wikipedia.org/wiki/Kofi_Annan",
@@ -660,106 +99,666 @@
         "https://en.wikipedia.org/wiki/Kofi_Annan",
         "https://en.wikipedia.org/wiki/Kofi_Annan"
       ],
-      "generated_answer": "veto air strikes in Bosnia",
+      "generated_answer": "peace and security",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 3,
+      "question": "What is the name of the Congo during artisanal mining of cobalt?",
+      "question_type": "multi_hop",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Smartphone",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/South_Africa",
+        "https://en.wikipedia.org/wiki/Apple_Inc.",
+        "https://en.wikipedia.org/wiki/Smartphone"
+      ],
+      "generated_answer": "Congo",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 4,
+      "question": "What is the archetypal example of the experience one has when standing on a cliff?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Existentialism",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mount_Everest",
+        "https://en.wikipedia.org/wiki/Existentialism",
+        "https://en.wikipedia.org/wiki/Aristotle"
+      ],
+      "generated_answer": "the Hillary Step",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 5,
+      "question": "What year did the ACA take effect?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Barack_Obama",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Barack_Obama",
+        "https://en.wikipedia.org/wiki/Barack_Obama",
+        "https://en.wikipedia.org/wiki/Barack_Obama"
+      ],
+      "generated_answer": "2014",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 6,
+      "question": "Why were jet aircraft used in World War II?",
+      "question_type": "inferential",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/World_War_II",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Airplane",
+        "https://en.wikipedia.org/wiki/Outline_of_World_War_II",
+        "https://en.wikipedia.org/wiki/World_War_II"
+      ],
+      "generated_answer": "They were an essential component of the military strategies",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 7,
+      "question": "Who was Cecil Rhodes's brother?",
+      "question_type": "multi_hop",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mark_Twain",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Rosalind_Franklin",
+        "https://en.wikipedia.org/wiki/Plato",
+        "https://en.wikipedia.org/wiki/Ancient_Rome"
+      ],
+      "generated_answer": "Roland",
+      "details": "Ground truth found at rank 4, not #1"
+    },
+    {
+      "question_id": 8,
+      "question": "When did Mae Mallory initiate a successful lawsuit against the city and state?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Civil_rights_movement",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Civil_rights_movement",
+        "https://en.wikipedia.org/wiki/Michael_Jackson",
+        "https://en.wikipedia.org/wiki/Mount_Everest"
+      ],
+      "generated_answer": "[1].",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 9,
+      "question": "How many years after Johann Balmer came up with his Balmer series did Johann Balmer come up with his",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Niels_Bohr",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Niels_Bohr",
+        "https://en.wikipedia.org/wiki/Johann_Sebastian_Bach",
+        "https://en.wikipedia.org/wiki/Johann_Sebastian_Bach"
+      ],
+      "generated_answer": "3",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 10,
+      "question": "Why did Achebe write \"English and the African Writer\".?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Chinua_Achebe",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Chinua_Achebe",
+        "https://en.wikipedia.org/wiki/Chinua_Achebe",
+        "https://en.wikipedia.org/wiki/Chinua_Achebe"
+      ],
+      "generated_answer": "his purpose is to communicate with readers across Nigeria",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 11,
+      "question": "How many self-portraits were created between 1885 and 1889?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Vincent_van_Gogh",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Vincent_van_Gogh",
+        "https://en.wikipedia.org/wiki/Frida_Kahlo",
+        "https://en.wikipedia.org/wiki/Vincent_van_Gogh"
+      ],
+      "generated_answer": "43",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 12,
+      "question": "When did the Persian king initially join the alliance against Sparta?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ancient_Greece",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ancient_Greece",
+        "https://en.wikipedia.org/wiki/Ancient_Greece",
+        "https://en.wikipedia.org/wiki/Ancient_Greece"
+      ],
+      "generated_answer": "477 BC",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 13,
+      "question": "How many years did the Empire lose its North African territories and the Dodecanese in the Italo-Tur",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ottoman_Empire",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ottoman_Empire",
+        "https://en.wikipedia.org/wiki/Ottoman_Empire",
+        "https://en.wikipedia.org/wiki/Ottoman_Empire"
+      ],
+      "generated_answer": "2",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 14,
+      "question": "What is the full name of the person who was killed by the KGB?",
+      "question_type": "inferential",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Albert_Camus",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Cold_War",
+        "https://en.wikipedia.org/wiki/World_War_II",
+        "https://en.wikipedia.org/wiki/Cold_War"
+      ],
+      "generated_answer": "Edward Jay Epstein",
+      "details": "Ground truth found at rank 4, not #1"
+    },
+    {
+      "question_id": 15,
+      "question": "Who was enthroned as the Eighth Dalai Lama?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Dalai_Lama",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Dalai_Lama",
+        "https://en.wikipedia.org/wiki/Dalai_Lama",
+        "https://en.wikipedia.org/wiki/Dalai_Lama"
+      ],
+      "generated_answer": "The 10th Dalai Lama",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 16,
+      "question": "How many cars did Tesla produce in 2008?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Tesla,_Inc.",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Tesla,_Inc.",
+        "https://en.wikipedia.org/wiki/Tesla,_Inc.",
+        "https://en.wikipedia.org/wiki/Tesla,_Inc."
+      ],
+      "generated_answer": "147",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 17,
+      "question": "What is a prophage?",
+      "question_type": "comparative",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Virus",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Actor%E2%80%93network_theory",
+        "https://en.wikipedia.org/wiki/Virus",
+        "https://en.wikipedia.org/wiki/Philosophy"
+      ],
+      "generated_answer": "unanswerable",
+      "details": "Ground truth found at rank 2, not #1"
+    },
+    {
+      "question_id": 18,
+      "question": "Calculus is used to find approximate solutions to equations. Why or How?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Calculus",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus",
+        "https://en.wikipedia.org/wiki/Calculus"
+      ],
+      "generated_answer": "For instance, spacecraft use",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 19,
+      "question": "What was the name of Beethoven's ballet?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven",
+        "https://en.wikipedia.org/wiki/Ludwig_van_Beethoven"
+      ],
+      "generated_answer": "Musik zu einem Ritterballett",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 20,
+      "question": "What is the capital of Nigeria?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Nigeria",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Nigeria",
+        "https://en.wikipedia.org/wiki/Nigeria",
+        "https://en.wikipedia.org/wiki/Nigeria"
+      ],
+      "generated_answer": "Abuja",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 21,
+      "question": "What is the difference between magnetic resonance cholangiopancreatography and MR enterography?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Magnetic_resonance_imaging",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Magnetic_resonance_imaging",
+        "https://en.wikipedia.org/wiki/Magnetic_resonance_imaging",
+        "https://en.wikipedia.org/wiki/Magnetic_resonance_imaging"
+      ],
+      "generated_answer": "magnetic resonance cholangiopancreatography",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 22,
+      "question": "Why did Pauli and Heisenberg take part in the conversation?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli",
+        "https://en.wikipedia.org/wiki/Wolfgang_Pauli"
+      ],
+      "generated_answer": "Heisenberg's world-renowned 1958 lecture",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 23,
+      "question": "What was the last common ancestor of all life?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Evolution",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Evolution",
+        "https://en.wikipedia.org/wiki/Evolution"
+      ],
+      "generated_answer": "4 billion years ago",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 24,
+      "question": "When was the first high-speed rail line opened in Indonesia?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Indonesia",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Indonesia",
+        "https://en.wikipedia.org/wiki/Indonesia",
+        "https://en.wikipedia.org/wiki/London"
+      ],
+      "generated_answer": "1924",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 25,
+      "question": "What was the difference between Kublai's army and those of Ariqboke?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mongol_Empire",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mongol_Empire",
+        "https://en.wikipedia.org/wiki/Mongol_Empire",
+        "https://en.wikipedia.org/wiki/Mongol_Empire"
+      ],
+      "generated_answer": "easily eliminated Ariqboke's supporters",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 26,
+      "question": "What is the name of Dal's major works?",
+      "question_type": "inferential",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Salvador_Dal%C3%AD",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/China",
+        "https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez",
+        "https://en.wikipedia.org/wiki/Jorge_Luis_Borges"
+      ],
+      "generated_answer": "Four Great Classical Novels",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 27,
+      "question": "What was the name of George Washington's estate at Mount Vernon?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/American_Revolution",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/American_Revolution",
+        "https://en.wikipedia.org/wiki/Jane_Austen",
+        "https://en.wikipedia.org/wiki/United_States"
+      ],
+      "generated_answer": "Mount Vernon Estate",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 28,
+      "question": "When did the Roman Republic begin?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ancient_Rome",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Ancient_Rome",
+        "https://en.wikipedia.org/wiki/Ancient_Rome",
+        "https://en.wikipedia.org/wiki/Ancient_Rome"
+      ],
+      "generated_answer": "509 BC",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 29,
+      "question": "How many nuclear reactor installations have been named after Enrico Fermi?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Enrico_Fermi",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Enrico_Fermi",
+        "https://en.wikipedia.org/wiki/Enrico_Fermi",
+        "https://en.wikipedia.org/wiki/Enrico_Fermi"
+      ],
+      "generated_answer": "Three",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 30,
+      "question": "Why is Sydney ranked 11th in the world for economic opportunity?",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Sydney",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Sydney",
+        "https://en.wikipedia.org/wiki/Sydney",
+        "https://en.wikipedia.org/wiki/Sydney"
+      ],
+      "generated_answer": "International education contributes $1.6 billion",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 31,
+      "question": "What type of engine does a turboprop have?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Airplane",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Airplane",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine"
+      ],
+      "generated_answer": "gas turbine",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 32,
+      "question": "When was the first Prime Minister of the United Kingdom appointed?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/United_Kingdom",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/United_Kingdom",
+        "https://en.wikipedia.org/wiki/United_Kingdom",
+        "https://en.wikipedia.org/wiki/Canada"
+      ],
+      "generated_answer": "1905",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 33,
+      "question": "How many cities did Gorbachev give rallies in?",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
+        "https://en.wikipedia.org/wiki/Mikhail_Gorbachev",
+        "https://en.wikipedia.org/wiki/Mikhail_Gorbachev"
+      ],
+      "generated_answer": "2",
+      "details": "Generated answer empty or unanswerable"
+    },
+    {
+      "question_id": 34,
+      "question": "Why did the ANC want trials of former state figures?",
+      "question_type": "inferential",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Desmond_Tutu",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Apartheid",
+        "https://en.wikipedia.org/wiki/Nelson_Mandela",
+        "https://en.wikipedia.org/wiki/Desmond_Tutu"
+      ],
+      "generated_answer": "to overthrow white authority",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 35,
+      "question": "What was the IAEA's outlook for nuclear energy in 2015?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Nuclear_power",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Nuclear_power",
+        "https://en.wikipedia.org/wiki/Atominstitute",
+        "https://en.wikipedia.org/wiki/Nuclear_power"
+      ],
+      "generated_answer": "had become more promising",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 36,
+      "question": "What is a national dish in Japan?",
+      "question_type": "factual",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Japan",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Global_cuisine",
+        "https://en.wikipedia.org/wiki/National_dish",
+        "https://en.wikipedia.org/wiki/Japan"
+      ],
+      "generated_answer": "ramen",
+      "details": "Ground truth found at rank 3, not #1"
+    },
+    {
+      "question_id": 37,
+      "question": "What is the name of the person who supported anti-colonial movem?",
+      "question_type": "comparative",
+      "category": "RETRIEVAL_MISS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Jean-Paul_Sartre",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/American_Revolution",
+        "https://en.wikipedia.org/wiki/Nelson_Mandela",
+        "https://en.wikipedia.org/wiki/Mahatma_Gandhi"
+      ],
+      "generated_answer": "William Franklin",
+      "details": "Ground truth URL not in top-K retrieved"
+    },
+    {
+      "question_id": 38,
+      "question": "What is the difference between a 2-stroke engine and a 4-stroke engine?",
+      "question_type": "comparative",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine",
+        "https://en.wikipedia.org/wiki/Internal_combustion_engine"
+      ],
+      "generated_answer": "It is the most efficient and powerful reciprocating internal combustion engine in the world",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 39,
+      "question": "What was the name of the Portuguese explorer who led the first European voyage to land in southern A",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/South_Africa",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/South_Africa",
+        "https://en.wikipedia.org/wiki/British_Empire",
+        "https://en.wikipedia.org/wiki/Brazil"
+      ],
+      "generated_answer": "Bartolomeu Dias",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 40,
+      "question": "How much did Jobs pay Wozniak?",
+      "question_type": "factual",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Steve_Jobs",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Steve_Jobs",
+        "https://en.wikipedia.org/wiki/Steve_Jobs",
+        "https://en.wikipedia.org/wiki/Steve_Jobs"
+      ],
+      "generated_answer": "$375",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 41,
+      "question": "What is the relationship between Socrates and Alcibiades?",
+      "question_type": "multi_hop",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Socrates",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Socrates",
+        "https://en.wikipedia.org/wiki/Socrates",
+        "https://en.wikipedia.org/wiki/Socrates"
+      ],
+      "generated_answer": "not clear",
+      "details": "Correct retrieval and reasonable answer"
+    },
+    {
+      "question_id": 42,
+      "question": "The law observes that when the system is isolated from the outside world and from those forces, ther",
+      "question_type": "inferential",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Thermodynamics",
+      "retrieved_urls": [
+        "https://en.wikipedia.org/wiki/Thermodynamics",
+        "https://en.wikipedia.org/wiki/Entropy",
+        "https://en.wikipedia.org/wiki/Entropy"
+      ],
+      "generated_answer": "entropy",
       "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 43,
-      "question": "Who published Emma in December 1815?",
+      "question": "How many isotopes did Glenn T. Seaborg discover?",
       "question_type": "multi_hop",
       "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Jane_Austen",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Jane_Austen",
-        "https://en.wikipedia.org/wiki/Jane_Austen",
-        "https://en.wikipedia.org/wiki/Jane_Austen"
+        "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
+        "https://en.wikipedia.org/wiki/Glenn_T._Seaborg",
+        "https://en.wikipedia.org/wiki/Periodic_table"
       ],
-      "generated_answer": "Tomalin",
+      "generated_answer": "ten",
       "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 44,
-      "question": "When did Japan agree to an unconditional surrender?",
+      "question": "In what year did Gertrude Stein die?",
       "question_type": "factual",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Japan",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Ernest_Hemingway",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Kofi_Annan",
-        "https://en.wikipedia.org/wiki/World_War_II",
-        "https://en.wikipedia.org/wiki/World_War_II"
+        "https://en.wikipedia.org/wiki/Ernest_Hemingway",
+        "https://en.wikipedia.org/wiki/Pablo_Picasso",
+        "https://en.wikipedia.org/wiki/Ernest_Hemingway"
       ],
-      "generated_answer": "12 November 2006",
-      "details": "Ground truth URL not in top-K retrieved"
+      "generated_answer": "1946",
+      "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 45,
-      "question": "Why did King berate Kennedy?",
-      "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Civil_rights_movement",
+      "question": "How many years after the announcement of Gemini did Google announce SynthID Detector?",
+      "question_type": "comparative",
+      "category": "LOW_ANSWER_QUALITY",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Google",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.",
-        "https://en.wikipedia.org/wiki/Civil_rights_movement",
-        "https://en.wikipedia.org/wiki/Martin_Luther_King_Jr."
+        "https://en.wikipedia.org/wiki/Google",
+        "https://en.wikipedia.org/wiki/Google",
+        "https://en.wikipedia.org/wiki/Google"
       ],
-      "generated_answer": "he was advancing the civil rights agenda",
-      "details": "Ground truth found at rank 2, not #1"
+      "generated_answer": "1",
+      "details": "Generated answer empty or unanswerable"
     },
     {
       "question_id": 46,
-      "question": "How did Aristotle's work reach its final form?",
+      "question": "Why did Zuckerberg say he regretted not doing more to resist pressure from the Biden administration?",
       "question_type": "inferential",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Aristotle",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Mark_Zuckerberg",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/William_Shakespeare",
-        "https://en.wikipedia.org/wiki/William_Shakespeare",
-        "https://en.wikipedia.org/wiki/Aristotle"
+        "https://en.wikipedia.org/wiki/Mark_Zuckerberg",
+        "https://en.wikipedia.org/wiki/Mark_Zuckerberg",
+        "https://en.wikipedia.org/wiki/Mark_Zuckerberg"
       ],
-      "generated_answer": "Aristotle's work reached its final form",
-      "details": "Ground truth found at rank 3, not #1"
+      "generated_answer": "to censor content related to COVID-19",
+      "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 47,
-      "question": "What city did Fermi move to?",
+      "question": "How many invertebrate species live in Amazon rainforest?",
       "question_type": "multi_hop",
-      "category": "RANK_DEGRADED",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Enrico_Fermi",
+      "category": "SUCCESS",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Amazon_rainforest",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Nigeria",
-        "https://en.wikipedia.org/wiki/Enrico_Fermi",
-        "https://en.wikipedia.org/wiki/Enrico_Fermi"
+        "https://en.wikipedia.org/wiki/Amazon_rainforest",
+        "https://en.wikipedia.org/wiki/Brazil",
+        "https://en.wikipedia.org/wiki/Amazon_rainforest"
       ],
-      "generated_answer": "Nigeria",
-      "details": "Ground truth found at rank 2, not #1"
+      "generated_answer": "1 billion",
+      "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 48,
-      "question": "What book described an episode of Schr\u00f6dinger being \"infatuated\" with a twelve-year-old girl?",
+      "question": "When did Mozart's music become popular?",
       "question_type": "factual",
       "category": "SUCCESS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger",
-        "https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger",
-        "https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger"
+        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+        "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart"
       ],
-      "generated_answer": "Walter Moore",
+      "generated_answer": "1777",
       "details": "Correct retrieval and reasonable answer"
     },
     {
       "question_id": 49,
-      "question": "What is a type of payment rail?",
+      "question": "What was the name of the band that won the Grammy Award for Album of the Year?",
       "question_type": "comparative",
-      "category": "RETRIEVAL_MISS",
-      "ground_truth_url": "https://en.wikipedia.org/wiki/Blockchain",
+      "category": "RANK_DEGRADED",
+      "ground_truth_url": "https://en.wikipedia.org/wiki/The_Beatles",
       "retrieved_urls": [
-        "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
-        "https://en.wikipedia.org/wiki/London",
-        "https://en.wikipedia.org/wiki/Cairo"
+        "https://en.wikipedia.org/wiki/Elvis_Presley",
+        "https://en.wikipedia.org/wiki/Bob_Marley",
+        "https://en.wikipedia.org/wiki/Michael_Jackson"
       ],
-      "generated_answer": "intermodal",
-      "details": "Ground truth URL not in top-K retrieved"
+      "generated_answer": "Elvis on Tour",
+      "details": "Ground truth found at rank 4, not #1"
     }
   ]
 }
