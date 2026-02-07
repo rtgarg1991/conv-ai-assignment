@@ -3,11 +3,12 @@ from typing import List, Dict
 
 
 class Chunker:
-    def __init__(self, chunk_size=300, overlap=50):
+    def __init__(self, chunk_size=300, overlap=50, min_chunk_size=100):
         # Assignment asks for 200-400 tokens with 50-token overlap.
         # We'll default to 300.
         self.chunk_size = chunk_size
         self.overlap = overlap
+        self.min_chunk_size = min_chunk_size  # Filter small tail chunks
 
     def chunk_text(self, text: str, meta: Dict) -> List[Dict]:
         """Splits text into overlapping chunks with metadata."""
@@ -58,7 +59,11 @@ class Chunker:
             # Move forward by (chunk_size - overlap)
             start += self.chunk_size - self.overlap
 
-        return chunks
+        # Filter out chunks that are too small (tail chunks)
+        filtered_chunks = [
+            c for c in chunks if c["token_count"] >= self.min_chunk_size
+        ]
+        return filtered_chunks
 
 
 if __name__ == "__main__":

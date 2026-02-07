@@ -106,7 +106,7 @@ Answer:"""
         return {
             "query": query,
             "answer": answer,
-            "retrieved_chunks": retrieved_chunks[:3],
+            "retrieved_chunks": retrieved_chunks,  # Return all TOP_N (5), not truncated to 3
         }
 
     def answer_question_with_details(self, query: str) -> Dict:

@@ -103,7 +103,7 @@ class URLLoader:
             # Properly decode URL-encoded characters
             raw_title = url.split("/wiki/")[-1]
             decoded_title = unquote(raw_title).replace("_", " ")
-            
+
             page = self.wiki.page(decoded_title)
 
             if not page.exists():
@@ -115,9 +115,11 @@ class URLLoader:
             word_count = len(page.text.split())
             if word_count < 200:
                 if verbose:
-                    print(f"  ✗ Too short ({word_count} words): {decoded_title[:50]}")
+                    print(
+                        f"  ✗ Too short ({word_count} words): {decoded_title[:50]}"
+                    )
                 return False
-            
+
             if verbose:
                 print(f"  ✓ Valid ({word_count} words): {decoded_title[:50]}")
             return True
@@ -155,7 +157,7 @@ class URLLoader:
         pages.extend(
             self._fetch_featured_articles(featured_target, exclude_titles)
         )
-        
+
         # Update exclude set (use lowercase for consistent dedup)
         for url in pages:
             raw_title = url.split("/wiki/")[-1]
@@ -164,7 +166,9 @@ class URLLoader:
 
         # Strategy 2: Category-based for diversity (to reach target)
         if len(pages) < count:
-            category_target = count - len(pages) + 50  # Fetch extra, some may be duplicates
+            category_target = (
+                count - len(pages) + 50
+            )  # Fetch extra, some may be duplicates
             pages.extend(
                 self._fetch_from_categories(category_target, exclude_titles)
             )
@@ -172,47 +176,57 @@ class URLLoader:
         print(f"\nSuccessfully fetched {len(pages)}/{count} valid articles.")
         return pages[:count]
 
-    def _fetch_featured_articles(self, target: int, exclude_titles: Set[str]) -> List[str]:
+    def _fetch_featured_articles(
+        self, target: int, exclude_titles: Set[str]
+    ) -> List[str]:
         """Fetch from Wikipedia's Featured and Good articles - guaranteed high quality."""
         pages = []
         gathered_titles = set()
-        
+
         # Featured articles are guaranteed to be comprehensive
         quality_categories = [
             "Featured_articles",
-            "Good_articles", 
+            "Good_articles",
             "A-Class_articles",
         ]
-        
+
         print(f"Fetching from quality article lists...")
-        
+
         for cat_name in quality_categories:
             if len(pages) >= target:
                 break
-                
+
             try:
                 cat = self.wiki.page(f"Category:{cat_name}")
                 if not cat.exists():
                     continue
-                    
+
                 for member in cat.categorymembers.values():
                     if len(pages) >= target:
                         break
-                    
+
                     # Skip subcategories, only get articles
                     if member.ns == wikipediaapi.Namespace.MAIN:
                         title_lower = member.title.lower()
-                        if title_lower not in exclude_titles and title_lower not in gathered_titles:
+                        if (
+                            title_lower not in exclude_titles
+                            and title_lower not in gathered_titles
+                        ):
                             url = member.fullurl
                             pages.append(url)
                             gathered_titles.add(title_lower)
-                            exclude_titles.add(title_lower)  # Prevent future duplicates
-                            print(f"Quality articles: {len(pages)}/{target}", end="\r")
-                            
+                            exclude_titles.add(
+                                title_lower
+                            )  # Prevent future duplicates
+                            print(
+                                f"Quality articles: {len(pages)}/{target}",
+                                end="\r",
+                            )
+
             except Exception as e:
                 print(f"Error fetching {cat_name}: {e}")
                 continue
-        
+
         print(f"\nGot {len(pages)} from quality lists")
         return pages
 
@@ -223,22 +237,56 @@ class URLLoader:
         # Expanded category list for better coverage - using more specific categories
         categories = [
             # Sciences
-            "Physics", "Chemistry", "Biology", "Astronomy", "Mathematics",
-            "Computer_science", "Medicine", "Geology", "Ecology",
+            "Physics",
+            "Chemistry",
+            "Biology",
+            "Astronomy",
+            "Mathematics",
+            "Computer_science",
+            "Medicine",
+            "Geology",
+            "Ecology",
             # History & Geography
-            "History", "Geography", "Ancient_history", "World_War_II",
+            "History",
+            "Geography",
+            "Ancient_history",
+            "World_War_II",
             # Arts & Culture
-            "Art", "Literature", "Music", "Architecture", "Film",
-            "Theatre", "Photography", "Sculpture", "Painting",
+            "Art",
+            "Literature",
+            "Music",
+            "Architecture",
+            "Film",
+            "Theatre",
+            "Photography",
+            "Sculpture",
+            "Painting",
             # Social Sciences
-            "Philosophy", "Psychology", "Economics", "Sociology",
-            "Anthropology", "Linguistics", "Political_science",
+            "Philosophy",
+            "Psychology",
+            "Economics",
+            "Sociology",
+            "Anthropology",
+            "Linguistics",
+            "Political_science",
             # Technology & Engineering
-            "Technology", "Engineering", "Electronics", "Robotics",
-            "Artificial_intelligence", "Software", "Internet",
+            "Technology",
+            "Engineering",
+            "Electronics",
+            "Robotics",
+            "Artificial_intelligence",
+            "Software",
+            "Internet",
             # Other
-            "Sports", "Religion", "Mythology", "Cuisine", "Fashion",
-            "Education", "Law", "Military", "Transportation",
+            "Sports",
+            "Religion",
+            "Mythology",
+            "Cuisine",
+            "Fashion",
+            "Education",
+            "Law",
+            "Military",
+            "Transportation",
         ]
         random.shuffle(categories)
 
@@ -259,16 +307,22 @@ class URLLoader:
                     # Only process main namespace articles
                     if member.ns == wikipediaapi.Namespace.MAIN:
                         title_lower = member.title.lower()
-                        if title_lower not in exclude_titles and title_lower not in gathered_titles:
+                        if (
+                            title_lower not in exclude_titles
+                            and title_lower not in gathered_titles
+                        ):
                             url = member.fullurl
 
                             # Pre-validate to avoid wasting slots
                             if self.validate_article(url):
                                 pages.append(url)
                                 gathered_titles.add(title_lower)
-                                exclude_titles.add(title_lower)  # Prevent future duplicates
+                                exclude_titles.add(
+                                    title_lower
+                                )  # Prevent future duplicates
                                 print(
-                                    f"Category: {len(pages)}/{target}", end="\r"
+                                    f"Category: {len(pages)}/{target}",
+                                    end="\r",
                                 )
 
             except Exception as e:
@@ -283,8 +337,11 @@ class URLLoader:
         return pages
 
     def _fetch_via_random_api(
-        self, target: int, exclude_titles: Set[str], existing_pages: List[str], 
-        skip_validation: bool = False
+        self,
+        target: int,
+        exclude_titles: Set[str],
+        existing_pages: List[str],
+        skip_validation: bool = False,
     ) -> List[str]:
         """Fetch random articles using Wikipedia's Random API with batch fetching."""
         pages = []
@@ -295,15 +352,17 @@ class URLLoader:
         max_attempts = fetch_target * 10
         batch_size = 20
 
-        print(f"\nFetching {target} articles via Random API (skip_validation={skip_validation})...")
+        print(
+            f"\nFetching {target} articles via Random API (skip_validation={skip_validation})..."
+        )
 
         while len(pages) < target and attempts < max_attempts:
             batch_urls = self.get_random_articles_batch(batch_size)
-            
+
             for url in batch_urls:
                 if len(pages) >= target:
                     break
-                    
+
                 if url and url not in existing_urls:
                     title = url.split("/wiki/")[-1].replace("_", " ")
                     if title not in exclude_titles:
@@ -312,7 +371,9 @@ class URLLoader:
                             pages.append(url)
                             existing_urls.add(url)
                             exclude_titles.add(title)
-                            print(f"Random API: {len(pages)}/{target}", end="\r")
+                            print(
+                                f"Random API: {len(pages)}/{target}", end="\r"
+                            )
 
             attempts += batch_size
             time.sleep(0.05)  # Faster rate limiting
@@ -323,25 +384,27 @@ class URLLoader:
     def fetch_curated_urls(self, target: int) -> List[str]:
         """
         Fetch URLs from curated article list for maximum diversity.
-        
+
         Args:
             target: Number of URLs to fetch.
-            
+
         Returns:
             List of validated Wikipedia URLs.
         """
         curated_titles = get_all_curated_articles()
         random.shuffle(curated_titles)  # Randomize order for variety
-        
+
         valid_urls = []
         failed = []
-        
-        print(f"Fetching {target} URLs from {len(curated_titles)} curated articles...")
-        
+
+        print(
+            f"Fetching {target} URLs from {len(curated_titles)} curated articles..."
+        )
+
         for title in curated_titles:
             if len(valid_urls) >= target:
                 break
-            
+
             try:
                 page = self.wiki.page(title)
                 if page.exists():
@@ -349,15 +412,22 @@ class URLLoader:
                     word_count = len(page.text.split())
                     if word_count >= 200:
                         valid_urls.append(page.fullurl)
-                        print(f"Curated: {len(valid_urls)}/{target} - {title[:40]}", end="\r")
+                        print(
+                            f"Curated: {len(valid_urls)}/{target} - {title[:40]}",
+                            end="\r",
+                        )
                     else:
-                        failed.append(f"{title} (too short: {word_count} words)")
+                        failed.append(
+                            f"{title} (too short: {word_count} words)"
+                        )
                 else:
                     failed.append(f"{title} (not found)")
             except Exception as e:
                 failed.append(f"{title} (error: {e})")
-        
-        print(f"\nFetched {len(valid_urls)} curated URLs ({len(failed)} failed)")
+
+        print(
+            f"\nFetched {len(valid_urls)} curated URLs ({len(failed)} failed)"
+        )
         return valid_urls
 
     def load_fixed_urls(self, force_refresh: bool = False) -> List[str]:
@@ -377,29 +447,33 @@ class URLLoader:
             with open(self.fixed_path, "r") as f:
                 existing_urls = json.load(f)
             print(f"Found {len(existing_urls)} existing fixed URLs.")
-            
+
             if len(existing_urls) >= self.fixed_count:
-                return existing_urls[:self.fixed_count]
-        
+                return existing_urls[: self.fixed_count]
+
         # Generate fresh URLs from curated list
-        print(f"Generating {self.fixed_count} diverse URLs from curated articles...")
+        print(
+            f"Generating {self.fixed_count} diverse URLs from curated articles..."
+        )
         urls = self.fetch_curated_urls(self.fixed_count)
-        
+
         # Save
         with open(self.fixed_path, "w") as f:
             json.dump(urls, f, indent=2)
         print(f"Saved {len(urls)} fixed URLs to {self.fixed_path}")
-        
-        return urls[:self.fixed_count]
 
-    def fetch_related_articles(self, source_urls: List[str], target: int) -> List[str]:
+        return urls[: self.fixed_count]
+
+    def fetch_related_articles(
+        self, source_urls: List[str], target: int
+    ) -> List[str]:
         """
         Fetch related articles by extracting links from source pages.
-        
+
         Args:
             source_urls: List of source Wikipedia URLs to get links from.
             target: Number of related articles to fetch.
-            
+
         Returns:
             List of validated related Wikipedia URLs.
         """
@@ -412,81 +486,97 @@ class URLLoader:
                 exclude_titles.add(decoded_title)
             except:
                 pass
-        
+
         # Collect all linked articles from source pages
         all_linked = []
         links_per_page = 5  # Get up to 5 links per source page
-        
-        print(f"Collecting related articles from {len(source_urls)} source pages...")
-        
+
+        print(
+            f"Collecting related articles from {len(source_urls)} source pages..."
+        )
+
         for i, url in enumerate(source_urls):
             try:
                 raw_title = url.split("/wiki/")[-1]
                 title = unquote(raw_title).replace("_", " ")
                 page = self.wiki.page(title)
-                
+
                 if page.exists():
                     # Get links from this page
-                    links = list(page.links.keys())[:20]  # Sample from first 20 links
+                    links = list(page.links.keys())[
+                        :20
+                    ]  # Sample from first 20 links
                     random.shuffle(links)
-                    
+
                     added = 0
                     for link_title in links:
                         if added >= links_per_page:
                             break
-                        
+
                         link_lower = link_title.lower()
                         # Skip if already in exclude set or is a meta page
                         if link_lower in exclude_titles:
                             continue
                         if ":" in link_title:  # Skip Wikipedia:, File:, etc.
                             continue
-                        
+
                         all_linked.append(link_title)
                         exclude_titles.add(link_lower)
                         added += 1
-                
-                print(f"Collecting links: {i+1}/{len(source_urls)} pages, {len(all_linked)} links", end="\r")
-                
+
+                print(
+                    f"Collecting links: {i + 1}/{len(source_urls)} pages, {len(all_linked)} links",
+                    end="\r",
+                )
+
             except Exception as e:
                 continue
-        
-        print(f"\nCollected {len(all_linked)} candidate links from source pages")
-        
+
+        print(
+            f"\nCollected {len(all_linked)} candidate links from source pages"
+        )
+
         # Shuffle and validate to get target count
         random.shuffle(all_linked)
-        
+
         valid_urls = []
         for title in all_linked:
             if len(valid_urls) >= target:
                 break
-            
+
             try:
                 page = self.wiki.page(title)
                 if page.exists():
                     word_count = len(page.text.split())
                     if word_count >= 200:
                         valid_urls.append(page.fullurl)
-                        print(f"Validating related: {len(valid_urls)}/{target}", end="\r")
+                        print(
+                            f"Validating related: {len(valid_urls)}/{target}",
+                            end="\r",
+                        )
             except:
                 continue
-        
+
         print(f"\nValidated {len(valid_urls)} related articles")
         return valid_urls
 
-    def load_random_urls(self, existing_urls: List[str]) -> List[str]:
+    def load_random_urls(
+        self, existing_urls: List[str], count: int = None
+    ) -> List[str]:
         """
         Generate random URLs from articles related to the fixed set.
         Ensures thematic continuity while being random.
 
         Args:
             existing_urls: Fixed URLs to get related articles from.
+            count: Optional override for number of URLs to fetch.
 
         Returns:
             List of random Wikipedia URLs (validated, no duplicates).
         """
-        print(f"Fetching {self.random_count} random articles related to fixed set...")
-        return self.fetch_related_articles(existing_urls, self.random_count)
+        target = count if count is not None else self.random_count
+        print(f"Fetching {target} random articles related to fixed set...")
+        return self.fetch_related_articles(existing_urls, target)
 
 
 if __name__ == "__main__":

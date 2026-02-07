@@ -1,7 +1,7 @@
 import json
 import time
 from tqdm import tqdm
-from pathlib import Path
+
 import sys
 import os
 
@@ -27,7 +27,14 @@ class DataPipeline:
         fixed_urls = self.loader.load_fixed_urls()
         random_urls = self.loader.load_random_urls(fixed_urls)
 
-        all_urls = fixed_urls + random_urls
+        # Deduplicate URLs (safety check)
+        all_urls = list(
+            dict.fromkeys(fixed_urls + random_urls)
+        )  # Preserves order, removes dupes
+        if len(all_urls) < len(fixed_urls) + len(random_urls):
+            print(
+                f"⚠️ Removed {len(fixed_urls) + len(random_urls) - len(all_urls)} duplicate URLs"
+            )
         print(f"Total URLs to process: {len(all_urls)}")
 
         # 2. Scrape & Chunk
@@ -51,8 +58,39 @@ class DataPipeline:
             # Rate limiting slightly to be polite
             time.sleep(0.1)
 
-        # 3. Save Corpus
-        print(f"\nProcessed {documents_processed}/{len(all_urls)} documents.")
+        # 3. Check if we have enough URLs, retry if needed
+        processed_urls = set(c["url"] for c in all_chunks)
+        target_urls = Config.NUM_FIXED_URLS + Config.NUM_RANDOM_URLS
+
+        retry_count = 0
+        max_retries = 10
+        while len(processed_urls) < target_urls and retry_count < max_retries:
+            needed = target_urls - len(processed_urls)
+            print(
+                f"\nNeed {needed} more URLs, fetching additional random URLs..."
+            )
+            extra_urls = self.loader.load_random_urls(
+                list(processed_urls), count=needed + 5
+            )
+
+            for url in tqdm(extra_urls, desc="Processing extra URLs"):
+                if url in processed_urls:
+                    continue
+                scrape_data = self.scraper.scrape_url(url)
+                if not scrape_data:
+                    continue
+                chunks = self.chunker.chunk_text(
+                    scrape_data["content"], scrape_data
+                )
+                if chunks:
+                    all_chunks.extend(chunks)
+                    processed_urls.add(url)
+                    documents_processed += 1
+                time.sleep(0.1)
+            retry_count += 1
+
+        # 4. Save Corpus
+        print(f"\nProcessed {len(processed_urls)}/{target_urls} documents.")
         print(f"Generated {len(all_chunks)} chunks.")
 
         with open(Config.CORPUS_PATH, "w") as f:
